@@ -29,7 +29,7 @@ class module {
     
     async get_module(name) {
         let address = "/modules/" + name;
-        const response = await fetch(window.location.protocol + "//" + window.location.host + "static/" + address);
+        const response = await fetch(window.location.protocol + "//" + window.location.host + "/static/" + address);
         let data = await response.text();
         return data;
     }
