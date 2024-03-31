@@ -3,7 +3,7 @@ class Module {
         this.handler = Handler;
         this.isModuleSource = true;
         this.source_name = "serverModules";
-        document.getElementById("demo").innerHTML = "server modules module loaded";
+        document.getElementById("demo").innerHTML = "server modules module loading...";
         this.asyncCon();
     }
     
