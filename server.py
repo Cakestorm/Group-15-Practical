@@ -24,4 +24,17 @@ def is_module(path):
 
 @app.route("/note_list")
 def get_local_note_list():
-    return ";".join([a for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+    return ";".join([a.replace(".note","") for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+
+@app.route("/get_note/<path:name>")
+def get_local_note(name):
+    return open("./stored_notes/" + name + ".note").read()
+
+@app.route("/post_note/<path:name>", methods=['POST'])
+def save_local_note(name, data=""):
+    posted = data
+    if data == "":
+        posted = request.form
+    with open("./stored_notes" + name + ".note", "w") as file:
+        file.write(posted)
+    return ('', 204)

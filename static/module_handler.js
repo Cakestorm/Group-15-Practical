@@ -61,16 +61,16 @@ class ModuleHandler {
     }
 
     loadModuleData(mod, data) {
-        console.log(data["sourceName"]);
+        console.log(data["name"]);
         let modulet = new mod(this);
         //this.loadedModules.push(modulet);
         //todo: version check
-        loadedModules[data["name"]] = {
+        this.loadedModules[data["name"]] = {
             "module": modulet,
             "data": data
         };
         if (data["isModuleSource"]) {
-            this.moduleSouces.push(data["name"]);
+            this.moduleSources.push(data["name"]);
         };
         if (data["isNoteSource"]) {
             this.noteSouces.push(data["name"]);
@@ -86,6 +86,26 @@ class ModuleHandler {
             }
         }
         return toret
+    }
+    
+    postNote(destination, data) {
+        return this.loadedModules[destination]["module"].postNote(data);
+    }
+    
+    getNote(name, source) {
+        if (source == undefined) {
+            //todo: find source that has file, throw error if none has
+        }
+        // todo: throw error if source doesn't have file
+        return this.loadedModules[source]["module"].getNote(name);
+    }
+    
+    patchNote(destination, name, data) {
+        return this.loadedModules[destination]["module"].patchNote(name, data);
+    }
+    
+    deletehNote(destination, name) {
+        return this.loadedModules[destination]["module"].deleteNote(name);
     }
 }
 
