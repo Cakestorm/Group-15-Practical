@@ -59,7 +59,7 @@ class ModuleHandler {
     }
 
     loadModuleData(mod, data) {
-        console.log(data["name"]);
+        //console.log(data["name"]);
         let modulet = new mod(this);
         //this.loadedModules.push(modulet);
         //todo: version check

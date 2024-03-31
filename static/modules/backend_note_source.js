@@ -27,8 +27,9 @@ export class Module {
     async getNote(name) { // retrieve given note
         let address = "/get_note/" + name;
         const response = await fetch(address);
-        let data = await response.text();
-        return data
+        let data = await response.json();
+        //console.log(data);  
+        return await data
     }
     
     async patchNote(name, data) { // store data for given note

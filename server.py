@@ -1,5 +1,6 @@
-import os
+import os, json
 from flask import Flask
+from flask import request
 hostName = "localhost"
 serverPort = 8080
 
@@ -34,7 +35,8 @@ def get_local_note(name):
 def save_local_note(name, data=""):
     posted = data
     if data == "":
-        posted = request.form
-    with open("./stored_notes" + name + ".note", "w") as file:
-        file.write(posted)
+        posted = request.json
+    posted_string = json.dumps(posted)
+    with open("./stored_notes/" + name + ".note", "w") as file:
+        file.write(posted_string)
     return ('', 204)
