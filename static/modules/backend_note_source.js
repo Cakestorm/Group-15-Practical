@@ -13,6 +13,10 @@ export class Module {
     }
     
     async getNoteList() { // obtains list of notes available from this source
+        let address = "/note_list";
+        const response = await fetch(address);
+        let data = await response.text();
+        return data.split(";");
     }
     
     async postNote(name, data) { // send data to store as new note

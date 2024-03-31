@@ -2,8 +2,15 @@
 <p>Request: lol</p>
 <body>
 <p>This is an example web server.</p>
-<button type="button" id="clickybutton">
-Click me to fetch data.</button>
+<form>
+  <label for="data">Note Data:</label><br><br>
+  <textarea rows="5" cols="80" id="data">
+  </textarea><br><br>
+  <label for="name">Note Name:</label>
+  <input type="text" id="name" name="name" value="example_note"><br><br>
+  <input type="button" id="save" value="Save">
+  <input type="button" id="load" value="Load">
+</form>
 
 <p id="demo"></p>
 </body>

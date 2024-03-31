@@ -13,7 +13,6 @@ def main():
 
 @app.route("/module_list")
 def get_local_module_list():
-    print("MODULES")
     return ";".join([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
     
 def is_module(path):
@@ -22,3 +21,7 @@ def is_module(path):
     if len(path.split("/")) > 3: return False
     if ";" in path: return False
     return True
+
+@app.route("/note_list")
+def get_local_note_list():
+    return ";".join([a for a in os.listdir("./stored_notes/") if a.endswith(".note")])

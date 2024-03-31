@@ -76,6 +76,17 @@ class ModuleHandler {
             this.noteSouces.push(data["name"]);
         }
     }
+    
+    getNoteList() { // Get list of notes from all loaded Note Sources
+        let toret = [];
+        for (let x in this.noteSources) {
+            var notes = this.loadedModules[x]["module"].getNoteList();
+            for (let y in notes) {
+                toret.push(x + ":" + y);
+            }
+        }
+        return toret
+    }
 }
 
 let mhand = new ModuleHandler();
