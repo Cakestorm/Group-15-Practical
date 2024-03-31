@@ -1,63 +1,63 @@
-class module {
+class Module {
     constructor(Handler) {
         this.handler = Handler;
-        this.is_module_source = true;
-        this.source_name = "server_modules";
+        this.isModuleSource = true;
+        this.source_name = "serverModules";
         document.getElementById("demo").innerHTML = "server modules module loaded";
-        this.async_con();
+        this.asyncCon();
     }
     
-    async async_con() {
+    async asyncCon() {
         // Get list of modules made available by this and load all of them
         // todo: redundancy checks 
-        var to_load = await this.get_modules(); // Todo: Check whether modules are enabled or not before loading them
-        //document.getElementById("demo").innerHTML = await to_load;
-        for (let x in await to_load) {
-            //document.getElementById("demo").innerHTML = to_load[x];
-            var mod = await this.get_module(to_load[x]);
+        var toLoad = await this.getModules(); // Todo: Check whether modules are enabled or not before loading them
+        //document.getElementById("demo").innerHTML = await toLoad;
+        for (let x in await toLoad) {
+            //document.getElementById("demo").innerHTML = toLoad[x];
+            var mod = await this.getModule(toLoad[x]);
             //document.getElementById("demo").innerHTML = await mod;
-            this.handler.load_module_string(mod)
+            this.handler.loadModuleString(mod)
         }
     }
     
-    async get_modules() {
+    async getModules() {
         let address = "/module_list";
         const response = await fetch(window.location.protocol + "//" + window.location.host + address);
         let data = await response.text();
         return data.split(";");
     }
     
-    async get_module(name) {
+    async getModule(name) {
         let address = "/modules/" + name;
-        const response = await fetch(window.location.protocol + "//" + window.location.host + "/static/" + address);
+        const response = await fetch("/static" + address);
         let data = await response.text();
         return data;
     }
 }
 
-class module_handler {
+class ModuleHandler {
     constructor() {
-        this.loaded_modules = [];
+        this.loadedModules = [];
     }
 
-    load_module(source, name) {
-        var returned = source.get_module(name);
+    loadModule(source, name) {
+        var returned = source.getModule(name);
     }
 
-    async load_module_string(string) {
+    async loadModuleString(string) {
         //console.log(string)
         let modfile = await import("data:text/javascript," + string);
-        //console.log(await modfile.module)
-        this.load_module_data(await modfile.module)
+        //console.log(await modfile.Module)
+        this.loadModuleData(await modfile.Module)
     }
 
-    load_module_data(mod) {
+    loadModuleData(mod) {
         let modulet = new mod(this);
-        this.loaded_modules.push(modulet);
+        this.loadedModules.push(modulet);
     }
 }
 
-let mhand = new module_handler();
-mhand.load_module_data(module);
+let mhand = new ModuleHandler();
+mhand.loadModuleData(Module);
 
 //document.getElementById("demo").innerHTML = window.location.host;

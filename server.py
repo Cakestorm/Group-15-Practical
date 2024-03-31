@@ -13,6 +13,7 @@ def main():
 
 @app.route("/module_list")
 def get_local_module_list():
+    print("MODULES")
     return ";".join([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
     
 def is_module(path):
