@@ -1,10 +1,16 @@
+moduleData = {
+    "name":"default_module_source",
+    "version":"1.0",
+    "author":"Group 15 Team",
+    "isModuleSource":true,
+    "isNoteSource":false
+}
+
 class Module {
     constructor(Handler) {
         this.handler = Handler;
-        this.isModuleSource = true;
-        this.source_name = "serverModules";
         document.getElementById("demo").innerHTML = "server modules module loading...";
-        this.asyncCon();
+        this.asyncCon(); // todo: Doing anything in the constructor like this is bad in case of version conflicts - add proper infrastructure for this later
     }
     
     async asyncCon() {
@@ -22,7 +28,7 @@ class Module {
     
     async getModules() {
         let address = "/module_list";
-        const response = await fetch(window.location.protocol + "//" + window.location.host + address);
+        const response = await fetch(address);
         let data = await response.text();
         return data.split(";");
     }
@@ -37,7 +43,9 @@ class Module {
 
 class ModuleHandler {
     constructor() {
-        this.loadedModules = [];
+        this.loadedModules = {};
+        this.moduleSources = [];
+        this.noteSources = [];
     }
 
     loadModule(source, name) {
@@ -48,16 +56,28 @@ class ModuleHandler {
         //console.log(string)
         let modfile = await import("data:text/javascript," + string);
         //console.log(await modfile.Module)
-        this.loadModuleData(await modfile.Module)
+        this.loadModuleData(await modfile.Module, await modfile.moduleData)
     }
 
-    loadModuleData(mod) {
+    loadModuleData(mod, data) {
+        console.log(data["sourceName"]);
         let modulet = new mod(this);
-        this.loadedModules.push(modulet);
+        //this.loadedModules.push(modulet);
+        //todo: version check
+        loadedModules[data["name"]] = {
+            "module": modulet,
+            "data": data
+        };
+        if (data["isModuleSource"]) {
+            this.moduleSouces.push(data["name"]);
+        };
+        if (data["isNoteSource"]) {
+            this.noteSouces.push(data["name"]);
+        }
     }
 }
 
 let mhand = new ModuleHandler();
-mhand.loadModuleData(Module);
+mhand.loadModuleData(Module, moduleData);
 
 //document.getElementById("demo").innerHTML = window.location.host;
