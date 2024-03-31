@@ -23,7 +23,7 @@ class Module {
             //document.getElementById("demo").innerHTML = toLoad[x];
             var mod = await this.getModule(toLoad[x]);
             //document.getElementById("demo").innerHTML = await mod;
-            this.handler.loadModuleString(mod)
+            this.handler.loadModuleData(await mod.Module, await mod.moduleData)
         }
     }
     
@@ -36,9 +36,7 @@ class Module {
     
     async getModule(name) {
         let address = "/modules/" + name;
-        const response = await fetch("/static" + address);
-        let data = await response.text();
-        return data;
+        return await import("/static" + address);
     }
 }
 
@@ -53,7 +51,7 @@ class ModuleHandler {
         var returned = source.getModule(name);
     }
 
-    async loadModuleString(string) {
+    async loadModuleString(string) { // Depreceated: trying to do it in this way makes comments in modules break stuff. Interpreting modules should be done by sources
         //console.log(string)
         let modfile = await import("data:text/javascript," + string);
         //console.log(await modfile.Module)
@@ -73,7 +71,7 @@ class ModuleHandler {
             this.moduleSources.push(data["name"]);
         };
         if (data["isNoteSource"]) {
-            this.noteSouces.push(data["name"]);
+            this.noteSources.push(data["name"]);
         }
     }
     
