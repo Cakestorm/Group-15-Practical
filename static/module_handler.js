@@ -1,9 +1,10 @@
 moduleData = {
-    "name":"default_module_source",
-    "version":"1.0",
-    "author":"Group 15 Team",
+    "name":"default_module_source", // Unique Identifier
+    "version":"1.0", // Used in case module sources have multiple copies (todo)
+    "author":"Group 15 Team", // No direct influence currently, but likely good to have
     "isModuleSource":true,
-    "isNoteSource":false
+    "isNoteSource":false,
+    "sourcePriority":0 // Used to resolve cases where multiple sources have a file (likely make this customisable by the user?
 }
 
 class Module {
