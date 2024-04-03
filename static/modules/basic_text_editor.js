@@ -29,7 +29,7 @@ export class Module {
         let div = document.getElementById('editor');
         let quill = Quill.find(div);
         let text = await data["body"];
-        quill.insertText(0, text);
+        quill.setContents(text);
     }
 
     saveNote()
@@ -39,6 +39,6 @@ export class Module {
 
         let div = document.getElementById('editor');
         let quill = Quill.find(div);
-        this.handler.patchNote("default_server_note_source", name, JSON.stringify({"body":quill.getText()}))
+        this.handler.patchNote("default_server_note_source", name, JSON.stringify({"body":quill.getContents()}))
     }
 }
