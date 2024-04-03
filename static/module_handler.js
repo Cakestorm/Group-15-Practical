@@ -4,13 +4,14 @@ moduleData = {
     "author":"Group 15 Team", // No direct influence currently, but likely good to have
     "isModuleSource":true,
     "isNoteSource":false,
-    "sourcePriority":0 // Used to resolve cases where multiple sources have a file (likely make this customisable by the user?
+    "sourcePriority":0, // Used to resolve cases where multiple sources have a file (likely make this customisable by the user?
+    "urlForm":"**"
 }
 
 class Module {
     constructor(Handler) {
         this.handler = Handler;
-        document.getElementById("demo").innerHTML = "server modules module loading...";
+        //document.getElementById("demo").innerHTML = "server modules module loading...";
         this.asyncCon(); // todo: Doing anything in the constructor like this is bad in case of version conflicts - add proper infrastructure for this later
     }
     
@@ -58,20 +59,38 @@ class ModuleHandler {
         this.loadModuleData(await modfile.Module, await modfile.moduleData)
     }
 
+    isValidURLForm(string){
+        let form = string.split('/');
+        let url = window.location.href.split('/');
+        url.splice(0,2);  // Removes 'https' and '' from the list
+        url.pop(); // Removes '' from the end of a list
+        while(form.length > 0 || url.length > 0){
+            if (form.length <= 0) return false;
+            if (form[0] == '**') return true;
+            let fNext = form.shift();
+            let uNext = url.shift();
+            if(fNext != uNext && fNext != '*') return false;
+        }
+        return true
+    }
+
     loadModuleData(mod, data) {
-        //console.log(data["name"]);
-        let modulet = new mod(this);
-        //this.loadedModules.push(modulet);
-        //todo: version check
-        this.loadedModules[data["name"]] = {
-            "module": modulet,
-            "data": data
-        };
-        if (data["isModuleSource"]) {
-            this.moduleSources.push(data["name"]);
-        };
-        if (data["isNoteSource"]) {
-            this.noteSources.push(data["name"]);
+        console.log(data["name"]);
+        if(this.isValidURLForm(data["urlForm"])){
+            //console.log(data["name"]);
+            let modulet = new mod(this);
+            //this.loadedModules.push(modulet);
+            //todo: version check
+            this.loadedModules[data["name"]] = {
+                "module": modulet,
+                "data": data
+            };
+            if (data["isModuleSource"]) {
+                this.moduleSources.push(data["name"]);
+            };
+            if (data["isNoteSource"]) {
+                this.noteSources.push(data["name"]);
+            }
         }
     }
     

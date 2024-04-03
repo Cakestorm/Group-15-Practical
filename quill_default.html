@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Page Title</title>
+        <link href="/static/lib/quill/quill.snow.css" rel="stylesheet" />
+    </head>
+
+    <body>
+        <p id = "editor"></p>
+
+        <!-- Initialize Quill editor -->
+        <script src="/static/lib/quill/quill.js"></script>
+        <script src="/static/module_handler.js"></script>
+        <!-- I have absolutely no fucking clue why but this just doesn't work
+            if the js file is in the same folder as this file-->
+        <script src="/static/quill_default.js"></script>
+        <button id="save_button">Save</button>
+    </body>
+</html>

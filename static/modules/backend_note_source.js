@@ -4,7 +4,8 @@ export const moduleData = {
     "author":"Group 15 Team", // No direct influence currently, but likely good to have
     "isModuleSource":false,
     "isNoteSource":true,
-    "sourcePriority":100 // Used to resolve cases where multiple sources have a file
+    "sourcePriority":100, // Used to resolve cases where multiple sources have a file
+    "urlForm":"**"
 }
 
 export class Module {

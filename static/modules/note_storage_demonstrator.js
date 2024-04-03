@@ -2,7 +2,8 @@ export const moduleData = {
     "name":"demonstrate_note_sorage",
     "version":"1.0",
     "author":"Jonathan Kuck",
-    "isModuleSource":false
+    "isModuleSource":false,
+    "urlForm":"**"
 };
 
 export class Module {
