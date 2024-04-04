@@ -111,6 +111,7 @@ class ModuleHandler {
         
         for (let x in modulesToLoad) {
             this.loadedModules[x]["module"].initialise();
+            this.loadPageFor(this.loadedPage, x);
             this.loadedModules[x]["loadedStatus"] = true;
         }
     }
@@ -154,12 +155,16 @@ class ModuleHandler {
     loadPage(name) {
         this.loadedPage = name;
         for (let x in this.loadedModules) {
-            if (
-                (!this.loadedModules[x]["data"]["loadOnPages"]) // property is not true
-                || this.loadedModules[x]["data"]["loadOnPages"].includes(name) // name is one of the pages this module watches for
-            ) {
-                this.loadedModules[x]["module"].onPageLoad();
-            }
+            this.loadPageFor(name, x);
+        }
+    }
+    
+    loadPageFor(name, module) {
+        if (
+            (!this.loadedModules[module]["data"]["loadOnPages"]) // property is not true
+            || this.loadedModules[module]["data"]["loadOnPages"].includes(name) // name is one of the pages this module watches for
+        ) {
+            this.loadedModules[module]["module"].onPageLoad();
         }
     }
 }
@@ -184,6 +189,5 @@ function isGreaterVersion(a,b) {
 
 let mhand = new ModuleHandler();
 mhand.loadModuleData(Module, moduleData);
-mhand.refreshModules();
 
 //document.getElementById("demo").innerHTML = window.location.host;
