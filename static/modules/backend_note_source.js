@@ -43,6 +43,27 @@ export class Module {
           }
         });
     }
+
+    // Update the details of the schema for a given note name, provided that the note exists
+    // Params:
+    // @name: String (might change to ID or just pass in a Basic_Note_Object in the future)
+    // @new_data: String, in JSON format
+    // Return: POST a note for update (overwrite the original note)
+    async modifyNote(name, new_data) { 
+        //TODO: check if the note exists. Raise error if not.
+        let orig_data = await this.getNote(name);
+        let parsed_data = JSON.parse(new_data);
+        let combined_data = Object.assign({}, orig_data, parsed_data);
+        //console.log(combined_data)
+        let address = "/post_note/" + name;
+        const response = fetch(address, {
+          method: "POST",
+          body: JSON.stringify(combined_data),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        });
+    }
     
     async deleteNote(name) { // deletes note with given name
     } 

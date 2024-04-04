@@ -24,7 +24,7 @@ class Module {
             //document.getElementById("demo").innerHTML = toLoad[x];
             var mod = await this.getModule(toLoad[x]);
             //document.getElementById("demo").innerHTML = await mod;
-            this.handler.loadModuleData(await mod.Module, await mod.moduleData)
+            this.handler.loadModuleData(await mod.Module, await mod.moduleData);
         }
     }
     
@@ -119,6 +119,10 @@ class ModuleHandler {
     
     patchNote(destination, name, data) {
         return this.loadedModules[destination]["module"].patchNote(name, data);
+    }
+
+    modifyNote(destination, name, data) {
+        return this.loadedModules[destination]["module"].modifyNote(name, data);
     }
     
     deletehNote(destination, name) {
