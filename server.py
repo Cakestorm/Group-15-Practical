@@ -40,3 +40,7 @@ def save_local_note(name, data=""):
     with open("./stored_notes/" + name + ".note", "w") as file:
         file.write(posted_string)
     return ('', 204)
+
+@app.route("/edit_note/<path:name>")
+def edit_local_note(name):
+    return open("./quill_default.html").read()
