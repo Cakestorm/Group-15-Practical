@@ -93,7 +93,7 @@ class ModuleHandler {
     }
     
     initialiseModules() {
-        if (this.processingModules > 0 || this.uninitialisiedModules) {
+        if (this.processingModules > 0 || this.uninitialisedModules) {
             return false; // Not in safe state to load
         }
         
