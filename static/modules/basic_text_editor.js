@@ -3,13 +3,15 @@ export const moduleData = {
     "version":"1.0",
     "author":"Jacob Roe",
     "isModuleSource":false,
-    "urlForm":"*/edit_note/*/**"
+    "loadOnPages":["editor"] 
 };
 
 export class Module {
     constructor(Handler) {
         this.handler = Handler;
-
+    }
+    
+    onPageLoad() {
         // Change Page Title As Appropriate
         let url = window.location.href.split('/');
         let name = url[4];

@@ -4,8 +4,8 @@ export const moduleData = {
     "author":"Group 15 Team", // No direct influence currently, but likely good to have
     "isModuleSource":false,
     "isNoteSource":true,
-    "sourcePriority":100, // Used to resolve cases where multiple sources have a file
-    "urlForm":"**"
+    "sourcePriority":1000, // Used to resolve cases where multiple sources have a file
+    "loadOnPages":[] // Empty or undefined means "all pages"
 }
 
 export class Module {

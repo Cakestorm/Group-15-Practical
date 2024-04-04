@@ -16,10 +16,8 @@ export class Module {
         //Currently, this simply extracts the names (better to use note ID) of all the available notes to be linked.
         //TODO: pass this to more specific functions that automatically finds relevant links, based on keywords or semantic similarity etc.
         //TODO: user should be able to customise the linked notes as well?
-        let address = "/note_list";
-        const response = await fetch(address);
-        let data = await response.text();
-        data = data.split(";");
+        
+        let data = this.handler.getNoteList();
 
         //Modify the attributes of a saved note
         let name = document.getElementById("name").value;
