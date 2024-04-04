@@ -53,7 +53,7 @@ class ModuleHandler {
 
     loadModuleData(mod, data) {
         // Todo: Check whether modules are enabled or not before loading them
-        console.log(data["name"]);
+        //console.log(data["name"]);
         let modulet = new mod(this);
         
         if (data["name"] in this.loadedModules) {
@@ -93,7 +93,7 @@ class ModuleHandler {
     }
     
     initialiseModules() {
-        if (this.processingModules > 0 || this.uninitialisedModules) {
+        if (this.processingModules > 0 || !this.uninitialisedModules) {
             return false; // Not in safe state to load
         }
         
@@ -103,17 +103,19 @@ class ModuleHandler {
                 modulesToLoad.push(x);
             }
         }
-        
+
+        self = this;
         // sort modules by priority
         modulesToLoad.sort(function(a,b) {
-            return this.loadedModules[a]["data"]["priority"] - this.loadedModules[b]["data"]["priority"]
+            return self.loadedModules[a]["data"]["priority"] - self.loadedModules[b]["data"]["priority"]
         });
         
-        for (let x in modulesToLoad) {
-            this.loadedModules[x]["module"].initialise();
+        modulesToLoad.forEach((x) => {
+            if (this.loadedModules[x]["module"].initialise)
+                this.loadedModules[x]["module"].initialise();
             this.loadPageFor(this.loadedPage, x);
             this.loadedModules[x]["loadedStatus"] = true;
-        }
+        })
     }
     
     getNoteList() { // Get list of notes from all loaded Note Sources
@@ -160,11 +162,14 @@ class ModuleHandler {
     }
     
     loadPageFor(name, module) {
+        let mod = this.loadedModules[module]["data"]["loadOnPages"]
         if (
-            (!this.loadedModules[module]["data"]["loadOnPages"]) // property is not true
-            || this.loadedModules[module]["data"]["loadOnPages"].includes(name) // name is one of the pages this module watches for
+            (!mod) || mod.length==0 // property is not true or is empty
+            || mod.includes(name)   // name is one of the pages this module watches for
         ) {
-            this.loadedModules[module]["module"].onPageLoad();
+            //console.log(this.loadedModules[module]["data"]["name"]);
+            if(this.loadedModules[module]["module"].onPageLoad)
+                this.loadedModules[module]["module"].onPageLoad();
         }
     }
 }
@@ -185,6 +190,11 @@ function isGreaterVersion(a,b) {
         alist = alist.slice(1);
         blist = blist.slice(1);
     }
+}
+
+window.onload = function() {
+    let pageName = document.querySelector("#page_name");
+    if(pageName) mhand.loadPage(pageName.getAttribute("page_name"));
 }
 
 let mhand = new ModuleHandler();

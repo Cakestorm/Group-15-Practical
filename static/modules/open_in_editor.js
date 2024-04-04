@@ -3,13 +3,15 @@ export const moduleData = {
     "version":"1.0",
     "author":"Jacob Roe",
     "isModuleSource":false,
-    "urlForm":"*"
+    "loadOnPages":["basic"]
 };
 
 export class Module {
     constructor(Handler) {
         this.handler = Handler;
+    }
 
+    onPageLoad(){
         let self = this;
         document.querySelector("#open").onclick = function() {self.open_editor()};
     }

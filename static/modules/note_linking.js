@@ -2,12 +2,16 @@ export const moduleData = {
     "name":"note_linking",
     "version":"1.0",
     "author":"Owen Guo",
-    "isModuleSource":false
+    "isModuleSource":false,
+    "loadOnPages":["basic"]
 }
 
 export class Module {
     constructor(Handler) {
         this.handler = Handler;
+    }
+
+    onPageLoad(){
         var self = this
         document.getElementById("link").onclick = function() {self.saveLinking()};
     }

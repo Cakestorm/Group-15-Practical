@@ -3,12 +3,15 @@ export const moduleData = {
     "version":"1.0",
     "author":"Jonathan Kuck",
     "isModuleSource":false,
-    "urlForm":"**"
+    "loadOnPages":["basic"]
 };
 
 export class Module {
     constructor(Handler) {
         this.handler = Handler;
+    }
+
+    onPageLoad(){
         //console.log(this);
         //console.log(this.handler);
         var self = this
