@@ -47,6 +47,7 @@ class ModuleHandler {
         this.moduleSources = [];
         this.noteSources = [];
         this.loadedPage = ""; // Updated whenever loadPage is called
+        this.processingModules = false; // Safety flag. function relating to processing modules does not operate if this is set, sets it while operating.
     }
 
     loadModule(source, name) {
@@ -126,7 +127,26 @@ class ModuleHandler {
     }
 }
 
+// Returns true iff a is higher version number than b
+function isGreaterVersion(a,b) {
+    let alist = a.split(".");
+    let blist = b.split(".");
+    while (true) {
+        if (alist.length == 0) {
+            return false
+        } else if (blist.length == 0) {
+            return true
+        }
+        if (alist[0] > blist[0]) {
+            return true
+        }
+        alist = alist.slice(1);
+        blist = blist.slice(1);
+    }
+}
+
 let mhand = new ModuleHandler();
 mhand.loadModuleData(Module, moduleData);
+
 
 //document.getElementById("demo").innerHTML = window.location.host;
