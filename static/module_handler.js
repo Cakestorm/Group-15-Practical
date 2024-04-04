@@ -11,21 +11,6 @@ moduleData = {
 class Module {
     constructor(Handler) {
         this.handler = Handler;
-        //document.getElementById("demo").innerHTML = "server modules module loading...";
-        this.asyncCon(); // todo: Doing anything in the constructor like this is bad in case of version conflicts - add proper infrastructure for this later
-    }
-    
-    async asyncCon() {
-        // Get list of modules made available by this and load all of them
-        // todo: redundancy checks 
-        var toLoad = await this.getModules(); // Todo: Check whether modules are enabled or not before loading them
-        //document.getElementById("demo").innerHTML = await toLoad;
-        for (let x in await toLoad) {
-            //document.getElementById("demo").innerHTML = toLoad[x];
-            var mod = await this.getModule(toLoad[x]);
-            //document.getElementById("demo").innerHTML = await mod;
-            this.handler.loadModuleData(await mod.Module, await mod.moduleData);
-        }
     }
     
     async getModules() {
@@ -47,7 +32,12 @@ class ModuleHandler {
         this.moduleSources = [];
         this.noteSources = [];
         this.loadedPage = ""; // Updated whenever loadPage is called
-        this.processingModules = false; // Safety flag. function relating to processing modules does not operate if this is set, sets it while operating.
+        this.processingModules = 0; // Safety flag. function relating to processing modules does not operate if this is set, sets it while operating. TODO: make this actually do something
+        this.uninitialisedModules = false; // Flag for whether new modules have been loaded but not yet initiliased
+        this.config = { // TODO: general functionality for this
+            "disabledModules":[],
+            "moduleConfig":{}
+        };
     }
 
     loadModule(source, name) {
@@ -62,19 +52,66 @@ class ModuleHandler {
     }
 
     loadModuleData(mod, data) {
+        // Todo: Check whether modules are enabled or not before loading them
         console.log(data["name"]);
         let modulet = new mod(this);
-        //this.loadedModules.push(modulet);
-        //todo: version check
+        
+        if (data["name"] in this.loadedModules) {
+            if (!isGreaterVersion(data["version"], this.loadedModules[data["name"]]["data"]["version"])) {
+                return false // don't bother loading a module if it's not a higher version
+            }
+        }
+        
         this.loadedModules[data["name"]] = {
             "module": modulet,
-            "data": data
+            "data": data,
+            "loadedStatus": false
         };
         if (data["isModuleSource"]) {
             this.moduleSources.push(data["name"]);
+            this.loadModulesFrom(data["name"]);
         };
         if (data["isNoteSource"]) {
             this.noteSources.push(data["name"]);
+        }
+        this.uninitialisedModules = true;
+        return true; // Successfully loaded module
+    }
+    
+    // Load (do not initlialise) all modules from specified source.
+    async loadModulesFrom(modname) {
+        this.processingModules += 1;
+        let mod = this.loadedModules[modname]["module"]
+        // Get list of modules made available by this and load all of them
+        var toLoad = await mod.getModules();
+        for (let x in await toLoad) {
+            var thismod = await mod.getModule(toLoad[x]);
+            this.loadModuleData(await thismod.Module, await thismod.moduleData);
+        }
+        this.processingModules -= 1;
+        this.initialiseModules() // Despite name, this'll fail if other modules are still prepping stuff, or nothing new has been loaded
+    }
+    
+    initialiseModules() {
+        if (this.processingModules > 0 || this.uninitialisiedModules) {
+            return false; // Not in safe state to load
+        }
+        
+        let modulesToLoad = []
+        for (let x in this.loadedModules) {
+            if (!this.loadedModules[x]["loadedStatus"]) {
+                modulesToLoad.push(x);
+            }
+        }
+        
+        // sort modules by priority
+        modulesToLoad.sort(function(a,b) {
+            return this.loadedModules[a]["data"]["priority"] - this.loadedModules[b]["data"]["priority"]
+        });
+        
+        for (let x in modulesToLoad) {
+            this.loadedModules[x]["module"].initialise();
+            this.loadedModules[x]["loadedStatus"] = true;
         }
     }
     
@@ -147,6 +184,6 @@ function isGreaterVersion(a,b) {
 
 let mhand = new ModuleHandler();
 mhand.loadModuleData(Module, moduleData);
-
+mhand.refreshModules();
 
 //document.getElementById("demo").innerHTML = window.location.host;
