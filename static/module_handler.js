@@ -118,11 +118,11 @@ class ModuleHandler {
         })
     }
     
-    getNoteList() { // Get list of notes from all loaded Note Sources
+    async getNoteList() { // Get list of notes from all loaded Note Sources
         let toret = [];
-        for (let x in this.noteSources) {
-            var notes = this.loadedModules[x]["module"].getNoteList();
-            for (let y in notes) {
+        for (let x of this.noteSources) {
+            var notes = await this.loadedModules[x]["module"].getNoteList();
+            for (let y of notes) {
                 toret.push(x + ":" + y);
             }
         }
@@ -151,6 +151,10 @@ class ModuleHandler {
     
     deleteNote(destination, name) {
         return this.loadedModules[destination]["module"].deleteNote(name);
+    }
+
+    displaynotes() {
+        return this.loadedModules['note_display']["module"].displaynotes();
     }
     
     // Load a page with a given name, informing all loaded modules about doing so.

@@ -31,5 +31,6 @@ export class Module {
         //console.log(this.handler);
         let name = document.getElementById("name").value;
         this.handler.patchNote("default_server_note_source", name, JSON.stringify({"body":document.getElementById("data").value}))
+        this.handler.displaynotes();
     }
 }
