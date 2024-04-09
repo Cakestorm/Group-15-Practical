@@ -3,7 +3,13 @@ export const moduleData = {
     "version":"1.0",
     "author":"Group 15 Team",
     "isModuleSource":false,
-    "loadOnPages":["basic"]
+    "loadOnPages":["basic"],
+    "config": {
+        "message": {
+            "default": "Module Loaded!",
+            "type": "string"
+        }
+    }
 };
 
 export class Module {
@@ -12,6 +18,6 @@ export class Module {
     }
 
     onPageLoad(){
-        document.getElementById("demo").innerHTML = "Module Loaded!";
+        document.getElementById("demo").innerHTML = this.handler.config.getConfig("module/example/message");
     }
 }

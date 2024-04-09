@@ -57,3 +57,7 @@ def delete_local_note(name):
 @app.route("/edit_note/<path:name>")
 def edit_local_note(name):
     return open("./quill_default.html").read()
+    
+@app.route("/get_config")
+def get_server_config():
+    return open("./server_config.json").read()

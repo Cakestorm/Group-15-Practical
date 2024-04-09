@@ -34,10 +34,7 @@ class ModuleHandler {
         this.loadedPage = ""; // Updated whenever loadPage is called
         this.processingModules = 0; // Safety flag. function relating to processing modules does not operate if this is set, sets it while operating. TODO: make this actually do something
         this.uninitialisedModules = false; // Flag for whether new modules have been loaded but not yet initiliased
-        this.config = { // TODO: general functionality for this
-            "disabledModules":[],
-            "moduleConfig":{}
-        };
+        this.config = new ConfigHandler(this);
     }
 
     loadModule(source, name) {
@@ -74,6 +71,9 @@ class ModuleHandler {
         if (data["isNoteSource"]) {
             this.noteSources.push(data["name"]);
         }
+        
+        this.config.loadConfigFromModule(data);
+        
         this.uninitialisedModules = true;
         return true; // Successfully loaded module
     }
@@ -203,6 +203,77 @@ class ModuleHandler {
                 this.loadedModules[module]["module"].onPageLoad();
         }
     }
+    
+    async getServerConfig() { // This feels like a bad idea, but should be safe?
+        let response = await fetch("/get_config");
+        //console.log(await response.json());
+        return await response.json();
+    }
+}
+
+class ConfigHandler { // Functionality for module config. Ideally move to separate file, but js is picky with that.
+    constructor(modules) {
+        this.modules = modules;
+        this.config = {};
+        this.localConfig = {}; // Loaded from local storage (TODO)
+        this.serverConfig = {}; // Loaded from server via default module
+        this.defaultConfig = {}; // Loaded from module data
+        this.configOutdated = true;
+        
+        this.loadServerConfig();
+        
+        this.updateConfig();
+    }
+    
+    updateConfig() {
+        if (this.configOutdated) {
+            this.config = Object.assign({}, this.defaultConfig, this.serverConfig, this.localConfig);
+            this.configOutdated = false;
+        }
+        //console.log(this.config);
+    }
+    
+    loadConfigFromModule(moduleData) {
+        let configSource = moduleData["config"];
+        if (moduleData["config"]) {
+            let construct = {};
+            //console.log(moduleData["config"])
+            for (let x in moduleData["config"]) {
+                construct[x] = moduleData["config"][x]["default"];
+            }
+            
+            let toret = {"module":{}};
+            toret["module"][moduleData["name"]] = construct;
+            
+            Object.assign(this.defaultConfig, toret);
+            
+            this.configOutdated = true;
+            return true
+        } else { // no config to load, skipping
+            return false
+        }
+    }
+    
+    async loadServerConfig() {
+        this.serverConfig = await this.modules.getServerConfig();
+        //console.log(this.serverConfig);
+        this.configOutdated = true;
+    }
+    
+    getConfig(path) {
+        let steps = path.split("/");
+        
+        this.updateConfig();
+        let loaded = this.config;
+        
+        while (steps.length > 0) {
+            loaded = loaded[steps[0]];
+            steps = steps.slice(1);
+        }
+        
+        return loaded
+    }
+
 }
 
 // Returns true iff a is higher version number than b
