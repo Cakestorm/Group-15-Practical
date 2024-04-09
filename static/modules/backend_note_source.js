@@ -33,6 +33,10 @@ export class Module {
         return await data
     }
     
+    async hasNote(name) {
+        return await (name in this.getNoteList())
+    }
+    
     async patchNote(name, data) { // store data for given note
         let address = "/post_note/" + name;
         const response = fetch(address, {

@@ -107,7 +107,7 @@ class ModuleHandler {
         self = this;
         // sort modules by priority
         modulesToLoad.sort(function(a,b) {
-            return self.loadedModules[a]["data"]["priority"] - self.loadedModules[b]["data"]["priority"]
+            return self.getModulePriority(a) - self.getModulePriority(b)
         });
         
         modulesToLoad.forEach((x) => {
@@ -116,6 +116,10 @@ class ModuleHandler {
             this.loadPageFor(this.loadedPage, x);
             this.loadedModules[x]["loadedStatus"] = true;
         })
+    }
+    
+    getModulePriority(name) {
+        return this.loadedModules[name]["data"]["priority"] //TODO: implement functionality for changing module priority
     }
     
     async getNoteList() { // Get list of notes from all loaded Note Sources
@@ -134,11 +138,34 @@ class ModuleHandler {
     }
     
     getNote(name, source) {
+        let trueSource = source;
         if (source == undefined) {
-            //todo: find source that has file, throw error if none has
+            let sources = this.getNoteSources(name);
+            if (sources.length == 0) {
+                // TODO: throw error if no source has the given note
+            } else {
+                trueSource = source[0];
+            }
         }
-        // todo: throw error if source doesn't have file
-        return this.loadedModules[source]["module"].getNote(name);
+        // TODO: throw error if source doesn't have file
+        return this.loadedModules[trueSource]["module"].getNote(name);
+    }
+    
+    getNoteSources(name) { // return list of source that contain the given name, sorted by priority.
+        let toret = [];
+        for (let x of this.noteSources) {
+            if (this.loadedModules[x]["module"].hasNote(name)) {
+                toret.push(x);
+            }
+        }
+        
+        // Sort by priority
+        self = this;
+        toret.sort(function(a,b) {
+            return self.getModulePriority(a) - self.getModulePriority(b)
+        });
+        
+        return toret
     }
     
     patchNote(destination, name, data) {
