@@ -70,5 +70,13 @@ export class Module {
     }
     
     async deleteNote(name) { // deletes note with given name
+        let address = "/delete_note/" + name;
+        const response = fetch(address, {
+          method: "POST",
+          body: {},
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        });
     } 
 }

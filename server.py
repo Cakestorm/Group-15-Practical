@@ -33,6 +33,8 @@ def get_local_note(name):
 
 @app.route("/post_note/<path:name>", methods=['POST'])
 def save_local_note(name, data=""):
+    if "/" in name:
+        return ('', 403) # 403 forbidden. SHould never ever have a / in a note name anyways, but if this is sent then something *really* bad is going on and we don't allow it.
     posted = data
     if data == "":
         posted = request.json
@@ -40,6 +42,17 @@ def save_local_note(name, data=""):
     with open("./stored_notes/" + name + ".note", "w") as file:
         file.write(posted_string)
     return ('', 204)
+
+@app.route("/delete_note/<path:name>")
+def delete_local_note(name):
+    #TODO: SO MANY SECURITY CHECKS
+    if "/" in name:
+        return ('', 403) # 403 forbidden. SHould never ever have a / in a note name anyways, but if this is sent then something *really* bad is going on and we don't allow it.
+    if os.path.isfile("./stored_notes/" + name + ".note"):
+        os.remove("./stored_notes/" + name + ".note")
+        return ('', 204)
+    else:
+        return ('', 400)
 
 @app.route("/edit_note/<path:name>")
 def edit_local_note(name):
