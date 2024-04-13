@@ -13,6 +13,8 @@ export class Module {
 
     onPageLoad(){
         var self = this
+        //console.log(this);
+        //console.log(this.handler);
         document.getElementById("link").onclick = function() {self.saveLinking()};
     }
     
@@ -21,7 +23,7 @@ export class Module {
         //TODO: pass this to more specific functions that automatically finds relevant links, based on keywords or semantic similarity etc.
         //TODO: user should be able to customise the linked notes as well?
         
-        let data = this.handler.getNoteList();
+        let data = await this.handler.getNoteList();
 
         //Modify the attributes of a saved note
         let name = document.getElementById("name").value;
@@ -31,7 +33,7 @@ export class Module {
         //TODO: Displaying the linked notes should also be done when a note is loaded.
         let display_str = ""
         for(let x in data) {
-            display_str += (data[x] + '.note\n')
+            display_str += ('>> '+ data[x] + '.note\n')
         }
         document.getElementById("linked_notes").value = display_str;
     }
