@@ -41,6 +41,7 @@ export class Module {
 
         let div = document.getElementById('editor');
         let quill = Quill.find(div);
+        console.log(quill.getContents());
         this.handler.patchNote("default_server_note_source", name, JSON.stringify({"body":quill.getContents()}))
     }
 }
