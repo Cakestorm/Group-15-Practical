@@ -5,13 +5,13 @@ Instructions to run the app on local machines:
 
 0. Clone or download the repository to your device. In your terminal / shell / CLI, cd to the base folder of this project.
 
-1. If this is the first time you are running the app, create a Python virtual environment called `env` by using the following command in the terminal/CLI:
+1. **If this is the first time you are running the app, create a Python virtual environment** called `env` by using the following command in the terminal/CLI:
 ```
     python -m venv env
 ```
 You can ignore this step in subsequent runs.
 
-2. Activate the virtual environment using this command (on Mac or Linux):
+2. **Activate the virtual environment** using this command (on Mac or Linux):
 ```
     source env/bin/activate
 ```
@@ -23,13 +23,13 @@ Or, if you're using Windows with cmd.exe or PowerShell:
 ```
     .\\venvName\\Scripts\\activate.bat
 ```
-3. If this is the first time you are running the app, install the required python dependencies as stated in the `requirements.txt` file:
+3. **If this is the first time you are running the app, install the required python dependencies** as stated in the `requirements.txt` file:
 ```
     pip install -r requirements.txt
 ```
 You can ignore this step in subsequent runs.
 
-4. You can now start the server by running:
+4. **You can now start the app server by running**:
 ```
     flask --app server.py run
 ```
@@ -40,9 +40,9 @@ Note that this will begin the server with messages as such:
      * Running on http://127.0.0.1:5000
     Press CTRL+C to quit
 
-You can now access the website at `http://127.0.0.1:5000`.
+You can now access the website at `http://127.0.0.1:5000` in your browser.
 
-5. Have fun playing around! If you want to quit the app, it is a good practice (optional) to deactivate the virtual environment simply by running:
+5. Have fun playing around! If you want to quit the app, it is a good practice (optional) to **deactivate the virtual environment** simply by running:
 ```
     deactivate
 ```
