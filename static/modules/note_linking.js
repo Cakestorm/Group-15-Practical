@@ -18,22 +18,31 @@ export class Module {
         document.getElementById("link").onclick = function() {self.saveLinking()};
     }
     
-    async saveLinking() { //async or not?
-        //Currently, this simply extracts the names (better to use note ID) of all the available notes to be linked.
-        //TODO: pass this to more specific functions that automatically finds relevant links, based on keywords or semantic similarity etc.
+    async saveLinking() {
+        // Obtain current note name
+        let name = document.getElementById("name").value;
+
+        //Pass to backend using /get_links to extract the top n most relevant links, given the current note
         //TODO: user should be able to customise the linked notes as well?
-        
-        let data = await this.handler.getNoteList();
+        var pth_list = await this.handler.getNoteList();
+        $.ajax({
+            'async': false,
+            'type': "GET",
+            'url': "/get_links",
+            'data': {}
+        }).done(function(top_matches) {
+            pth_list = top_matches  //Replace whatever nonsense with the linked notes
+        });
+        //console.log(pth_list)
 
         //Modify the attributes of a saved note
-        let name = document.getElementById("name").value;
-        this.handler.modifyNote("default_server_note_source", name, JSON.stringify({"links":data}))
+        this.handler.modifyNote("default_server_note_source", name, JSON.stringify({"links":pth_list}))
 
         //Display the names of linked notes on the webpage (TODO: better display paths to those notes)
         //TODO: Displaying the linked notes should also be done when a note is loaded.
         let display_str = ""
-        for(let x in data) {
-            display_str += ('>> '+ data[x] + '.note\n')
+        for(let x in pth_list) {
+            display_str += ('>> '+ pth_list[x] + '\n')
         }
         document.getElementById("linked_notes").value = display_str;
     }
