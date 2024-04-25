@@ -1,114 +1,131 @@
 :root {
-    /** Define the colour palette everything uses.
-      * Avoid using hex colours outside of this section!
-      *
-      * Do also forgive my sin of prepending "alma" to everything.
-      * I like sticking the project name in front of things. */
-    --almaBlack:#17171a;
-    --almaGrey:#201f33;
-    --almaWhite:#edfaff;
-    --almaBlue:#47a1b3;
-    --almaTurquoise:#52cca3; /** how do you spell turqouise */
-    --almaLightBlue:#98add9;
-    --almaGreen:#50c75a;
-    --almaPurple:#332966;
+    --alma-black:#17171a;
+    --alma-white:#edfaff;
+    --alma-grey:#201f33;
+    --alma-blue:#47a1b3;
+    --alma-turquoise:#52cca3;
+    --alma-light-blue:#98add9;
+    --alma-green:#50c75a;
+    --alma-purple:#332966;
 }
 
-@font-face {
-    font-family: 'BasicHandwriting';
-    src: url('UI_assets/BasicHandwriting.ttf') format('truetype')
-    /** TODO: Other formats e.g. .woff, .woff2 etc etc etc */
+/* Sane defaults */
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
-/** Page background. */
+/* Page layout */
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: var(--almaBlack);
+    padding: 1rem 0.75rem;
+    display: grid;
+    grid-template:
+        "header header " 4rem
+        "editor sidebar"
+        ".      .      " 3rem /
+        2fr     1fr;
+    gap: 1rem 2rem;
 }
 
-/** Style for backgrounds of any input elements. */
-textarea, input[type="text"]{
-    /** Self explanatory (ie. boring!) */
-    background-color: var(--almaGrey);
-    border: 3px solid var(--almaGrey);
-    
-    /** Outside-the-box padding */
-    margin: 8px;
-    
-    /** Inside-the-box padding */
-    padding: 8px;
-    
-    /** Gets rid of that annoying blue border on selection */
-    outline: none;    
-    
-    /** Makes the border fade in on click, rather than being instantaneous */
-    transition: 0.1s ease-in-out;
-    
-    /** Makes text input elements constant size. Helps with formatting, but 
-      * let me know if this wants getting rid of. */
-    resize: none;
-}
-/** Makes boxes pretty on mousing over */
-textarea:hover, input[type="text"]:hover{
-    border-color: var(--almaBlue);
-    
-    /** Changes the box size without affecting anything else's formatting. Neat! */
-    padding: 12px;
-    margin: 4px;
+body > header {
+    grid-area: header;
+    display: flex;
 }
 
-/** Makes the boxes pretty when you click/otherwise select them */
-textarea:focus, input[type="text"]:focus{
-    border: 3px solid;
-    border-color: var(--almaWhite);  
+body > main {
+    grid-area: editor;
 }
 
-textarea:active, input[type="text"]:active{
-    background-color: var(--almaBlack);
-    padding: 4px;
-    margin: 12px;    
+body > aside {
+    padding-right: 1rem;
+    grid-area: sidebar;
+    display: grid;
+    grid-template:
+        "search" 2fr
+        "related" 1fr;
 }
 
-/** Basically the above with some tweaks for buttons */
-input[type="button"]{
-    background-color: var(--almaGrey);
-    border: 3px solid var(--almaPurple);
-    
-    margin: 8px;
-    padding: 8px;
-
-    outline: none;    
-    transition: 0.1s ease-in-out;
-    
-    /** Makes the cursor turn into that little hand. Not sure why this isn't default. */
-    cursor: pointer
+body > aside section {
+    display: flex;
+    flex-direction: column;
 }
 
-input[type="button"]:hover{
-    border-color: var(--almaGreen);
-    padding: 12px;
-    margin: 4px;
+body > aside ol {
+    list-style: none;
+    margin-top: 0.8rem;
+    margin-bottom: 0;
+    padding-left: 0;
+    height: 100%;
+    font-size: 1.4rem;
+    line-height: 1.4;
 }
 
-/** On-click effects */
-input[type="button"]:active{
-    border-color: var(--almaWhite);      
-    padding: 4px;
-    margin: 12px;
+/* Page style */
+
+/* NOTE:
+ * To target the header, use "body > header [SELECTOR]"
+ * To target the sidebar, use "body > aside [SELECTOR]"
+ * where [SELECTOR] is the CSS selector that will otherwise select the element
+ * to target: for example, "body > aside input[type=text]" selects all text
+ * inputs in the sidebar (right now there is only one input, but this will
+ * target any future input added there too). */
+
+/* XXX: What follows is purely for illustration; please restyle. */
+
+html {
+    font-family: -apple-system, 'Segoe UI', Helvetica, sans-serif;
 }
 
-/** Style for everywhere where basic text appears. */
-p, label, textarea, input{
-    color: var(--almaWhite);   
-    font-family: 'BasicHandwriting'; 
-    
-    /** Ought to always be a multiple of 16px (its pixel art) */
-    font-size:16px; 
-    
-    /** Surprisingly 1 is not the default value */
-    line-height:1
+body > aside li a {
+    text-decoration: none;
+    color: var(--alma-grey);
 }
 
-::selection{
-    background: var(--almaTurquoise);
-    /** If anyone knows how to make the background bigger do let me know
+body > aside input[type=text] {
+    padding: 0.25em 0.5em;
+    background: var(--alma-turquoise);
+    border: 2px solid var(--alma-purple);
+    transition: border 0.2s ease-in-out;
+    outline: none;
+}
+
+body > aside input[type=text]:hover {
+    border: 4px solid var(--alma-purple);
+}
+
+/* Editor style */
+
+/* NOTE(@Hera Brown):
+ * Please prefix styles targeting Quill editor with ".ql-editor", and
+ * styles targeting Quill toolbar with ".ql-toolbar".
+ * For example, to make Heading 1 in Quill editor red, write
+ * .ql-editor h1 {
+ *   color: red;
+ * }
+ * To make the entire editor has green background, write
+ * .ql-editor {
+ *   background-color: green;
+ * } */
+
+/* XXX: What follows is purely for illustration; please restyle. */
+
+.ql-editor {
+    background: radial-gradient(var(--alma-purple), var(--alma-blue));
+    color: white;
+}
+
+.ql-toolbar button.ql-bold {
+    background-color: var(--alma-light-blue);
+}
+.ql-toolbar button.ql-bold .ql-stroke {
+    stroke: var(--alma-green);
 }

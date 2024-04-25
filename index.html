@@ -1,44 +1,47 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="almastyle.css">
-  <title>GDP Group 15</title>
-  <div id="page_name" page_name="basic"></div>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="colorscheme" content="light dark" />
+	<link rel="stylesheet" href="/static/lib/quill/quill.snow.css" />
+	<link rel="stylesheet" href="/static/lib/katex/katex.min.css" />
+	<link rel="stylesheet" href="/static/almastyle.css" />
+	<script src="/static/lib/quill/quill.js" defer="defer"></script>
+	<script src="/static/lib/katex/katex.min.js" defer="defer"></script>
+	<script src="/static/init.js" defer="defer"></script>
+	<title>Almagest</title>
 </head>
-
 <body>
-  <center><h1>Almagest</h1></center>
-  <div style="width: 100%; overflow: hidden;">
-  <div style="width: 600px; float: left;">
-    
-    <p>Notes available:</p>
-    <form id="note"></form>
-  
-
-
-    <input type="button" id="open" value="Open In Editor">
-    
-  </div>
-
-  <div style="margin-left: 620px;">
-    <form>
-      <label for="linked_notes">Notes link to selected file:</label><br><br>
-      <textarea rows="10" cols="50" id="linked_notes">
-      </textarea><br><br>
-    </form>
-  </div>
-  </div>
-
-  <div style="padding-top: 200px;">
-  <p>placeholder/debug elements:</p>
-  <p id="demo"></p>
-  <input type="button" id="link" value="Link Notes">
-  <input type="button" id="notes" value="Display Notes">
-  <label for="name">Note Name:</label>
-
-  <input type="text" id="name" name="name" value="example_note"><br><br>
-  </div>
+	<header>
+		<picture>
+			<source srcset="/static/img/logo-dark.png" media="only (prefers-color-scheme: dark)" />
+			<img src="/static/img/logo-light.png" alt="site logo" />
+		</picture>
+	</header>
+	<main>
+		<article></article>
+	</main>
+	<aside id="sidebar">
+		<section id="side-search">
+			<h2>Search</h2>
+			<input type="text" />
+			<ol>
+				<li>&shy;<!--
+					Placeholder, to measure the space required for a result
+					and thus calculate the number of results to display
+				--></li>
+			</ol>
+		</section>
+		<section id="side-related">
+			<h2>Related notes</h2>
+			<ol>
+				<li>&shy;<!--
+					Placeholder, to measure the space required for a result
+					and thus calculate the number of results to display
+				--></li>
+			</ol>
+		</section>
+	</aside>
 </body>
-
-<script src="/static/module_handler.js"></script>
 </html>
-
