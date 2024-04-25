@@ -1,6 +1,8 @@
 import os, json
 from flask import Flask
 from flask import request
+from static.backend_py.embeddings import get_linked_notes
+
 hostName = "localhost"
 serverPort = 8080
 
@@ -61,3 +63,12 @@ def edit_local_note(name):
 @app.route("/get_config")
 def get_server_config():
     return open("./server_config.json").read()
+
+@app.route("/get_links")
+def get_links():
+    # Example: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
+    current_pth = "stored_notes/wos_notes/Article 1.note"
+    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+    top_mathces = get_linked_notes(current_pth=current_pth,
+                              pth_list=pth_list, topn = 10)
+    return top_mathces
