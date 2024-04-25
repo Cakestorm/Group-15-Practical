@@ -21,7 +21,7 @@ If you are using Windows with WSL or Git Bash:
 ```
 Or, if you're using Windows with cmd.exe or PowerShell:
 ```
-    .\\venvName\\Scripts\\activate.bat
+    .\\env\\Scripts\\activate.bat
 ```
 3. **If this is the first time you are running the app, install the required python dependencies** as stated in the `requirements.txt` file:
 ```
