@@ -1,3 +1,4 @@
+python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 flask --app server.py run
@@ -6,8 +7,9 @@ deactivate
 # INSTRUCTIONS: run our app in a python virtual environement 
 # Step 0: cd to base folder of our project
 
-# Step 1: Activate the python virtual environment, which is defined in the 'env' folder
+# Step 1: Create and activate the python virtual environment, which is defined in the 'env' folder
 # if you are on Linux or Mac, run the following command
+python -m venv env
 source env/bin/activate
 # if you are window user, run the following command on cmd.exe:
 .\\venvName\\Scripts\\activate.bat
