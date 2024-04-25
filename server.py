@@ -4,7 +4,7 @@ from flask import request
 hostName = "localhost"
 serverPort = 8080
 
-webpage_file = "./basic-webpage.html"
+webpage_file = "./index.html"
 
 app = Flask(__name__)
 
