@@ -2,6 +2,7 @@
 For our group design project on the yet-to-be-named knowledge management app!
 
 Instructions to run the app on local machines:
+
 0. Clone or download the repository to your device. In your terminal / shell / CLI, cd to the base folder of this project.
 
 1. If this is the first time you are running the app, create a Python virtual environment called `env` by using the following command in the terminal/CLI:
@@ -34,10 +35,10 @@ You can ignore this step in subsequent runs.
 
 Note that this will begin the server with messages as such:
 
- * Serving Flask app 'server.py'
- * Debug mode: off
- * Running on http://127.0.0.1:5000
-Press CTRL+C to quit
+     * Serving Flask app 'server.py'
+     * Debug mode: off
+     * Running on http://127.0.0.1:5000
+    Press CTRL+C to quit
 
 You can now access the website at `http://127.0.0.1:5000`.
 
