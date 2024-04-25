@@ -62,5 +62,5 @@ def get_linked_notes(current_pth = "stored_notes/wos_notes/Article 1.note",
     return top_matches
 
 
-pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
-print(get_linked_notes(pth_list=pth_list))
+#pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+#print(get_linked_notes(pth_list=pth_list))
