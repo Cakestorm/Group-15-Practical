@@ -1,44 +1,18 @@
+<!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="almastyle.css">
-  <title>GDP Group 15</title>
-  <div id="page_name" page_name="basic"></div>
-</head>
-
-<body>
-  <center><h1>Almagest</h1></center>
-  <div style="width: 100%; overflow: hidden;">
-  <div style="width: 600px; float: left;">
-    
-    <p>Notes available:</p>
-    <form id="note"></form>
-  
-
-
-    <input type="button" id="open" value="Open In Editor">
-    
-  </div>
-
-  <div style="margin-left: 620px;">
-    <form>
-      <label for="linked_notes">Notes link to selected file:</label><br><br>
-      <textarea rows="10" cols="50" id="linked_notes">
-      </textarea><br><br>
-    </form>
-  </div>
-  </div>
-
-  <div style="padding-top: 200px;">
-  <p>placeholder/debug elements:</p>
-  <p id="demo"></p>
-  <input type="button" id="link" value="Link Notes">
-  <input type="button" id="notes" value="Display Notes">
-  <label for="name">Note Name:</label>
-
-  <input type="text" id="name" name="name" value="example_note"><br><br>
-  </div>
-</body>
-
-<script src="/static/module_handler.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="/static/lib/quill/quill.snow.css" id="quillstyle" />
+	<script src="/static/lib/quill/quill.js" defer="defer"></script>
+    <script src="/static/module_handler.js" defer="defer"></script>
+	<script src="/static/app.js" defer="defer"></script>
+    <title>Almagest</title>
+    <div id="page_name" page_name="index"></div>
+  </head>
+  <body>
+    <main>
+      <div id="editor"></div>
+    </main>
+  </body>
 </html>
-

@@ -12,16 +12,13 @@ export class Module {
     }
 
     onPageLoad(){
-        console.log("editor loaded")
-        var self = this;
-        
-        document.getElementById("open").onclick = function() {self.open_editor()};
-        
+        let self = this;
+        document.querySelector("#open").onclick = function() {self.open_editor()};
     }
 
     open_editor(){
         let url = window.location.href;
-        let name = document.querySelector('input[name="choice"]:checked').value;
+        let name = document.getElementById("name").value;
         window.open(url+'edit_note/'+name);
     }
 }

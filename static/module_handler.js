@@ -294,10 +294,6 @@ function isGreaterVersion(a,b) {
     }
 }
 
-function handleClick(myRadio) {
-    document.getElementById("linked_notes").innerHTML = 'New value: ' + myRadio.value
-}
-
 window.onload = function() {
     let pageName = document.querySelector("#page_name");
     if(pageName) mhand.loadPage(pageName.getAttribute("page_name"));

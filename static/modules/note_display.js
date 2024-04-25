@@ -6,8 +6,6 @@ export const moduleData = {
     "loadOnPages":["basic"]
 };
 
-
-
 export class Module {
     constructor(Handler) {
         this.handler = Handler;
@@ -18,20 +16,19 @@ export class Module {
         //console.log(this.handler);
         var self = this
         this.displaynotes()
+        document.getElementById("notes").onclick = function() {self.displaynotes()};
     }
-    
+
     async displaynotes(){
 
         let data = await this.handler.getNoteList();
         let noteslist = ""
         for (let line of data){
-            let url = window.location.href
-            let text = line.split(":")[1]
-            noteslist = noteslist + '<input type="radio" id="'+text+'" name="choice" value="'+text+'" onclick="handleClick(this);"/><label for="'+text+'">'+text+'</label><br>'
+            noteslist = noteslist + "- " + line.split(":")[1] + "\n"
         }
-        document.getElementById("note").innerHTML = noteslist;        
+        document.getElementById("note").innerHTML = "The notes available in your local folder: \n" + noteslist;
     }
-}
+    
     
 
-
+}

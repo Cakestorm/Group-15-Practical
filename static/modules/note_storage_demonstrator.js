@@ -15,8 +15,8 @@ export class Module {
         //console.log(this);
         //console.log(this.handler);
         var self = this
-        //document.getElementById("load").onclick = function() {self.loadWigit()};
-        //document.getElementById("save").onclick = function() {self.saveWigit()};
+        document.getElementById("load").onclick = function() {self.loadWigit()};
+        document.getElementById("save").onclick = function() {self.saveWigit()};
     }
     
     async loadWigit() {
