@@ -1,18 +1,47 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="/static/lib/quill/quill.snow.css" id="quillstyle" />
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="colorscheme" content="light dark" />
+	<link rel="stylesheet" href="/static/lib/quill/quill.snow.css" />
+	<link rel="stylesheet" href="/static/lib/katex/katex.min.css" />
+	<link rel="stylesheet" href="/static/almastyle.css" />
 	<script src="/static/lib/quill/quill.js" defer="defer"></script>
-    <script src="/static/module_handler.js" defer="defer"></script>
-	<script src="/static/app.js" defer="defer"></script>
-    <title>Almagest</title>
-    <div id="page_name" page_name="index"></div>
-  </head>
-  <body>
-    <main>
-      <div id="editor"></div>
-    </main>
-  </body>
+	<script src="/static/lib/katex/katex.min.js" defer="defer"></script>
+	<script src="/static/init.js" defer="defer"></script>
+	<title>Almagest</title>
+</head>
+<body>
+	<header>
+		<picture>
+			<source srcset="/static/img/logo-dark.png" media="only (prefers-color-scheme: dark)" />
+			<img src="/static/img/logo-light.png" alt="site logo" />
+		</picture>
+	</header>
+	<main>
+		<article></article>
+	</main>
+	<aside id="sidebar">
+		<section id="side-search">
+			<h2>Search</h2>
+			<input type="text" />
+			<ol>
+				<li>&shy;<!--
+					Placeholder, to measure the space required for a result
+					and thus calculate the number of results to display
+				--></li>
+			</ol>
+		</section>
+		<section id="side-related">
+			<h2>Related notes</h2>
+			<ol>
+				<li>&shy;<!--
+					Placeholder, to measure the space required for a result
+					and thus calculate the number of results to display
+				--></li>
+			</ol>
+		</section>
+	</aside>
+</body>
 </html>
