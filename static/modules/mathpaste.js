@@ -15,6 +15,40 @@ $.editor.quill.clipboard.addMatcher(".ql-formula[data-value]", (el) => {
 	if (latex) return makeFormula(latex);
 });
 
+// In addition, when copying a Quill formula, Quill calls the html() method
+// of the "formats/formula" class to create a alternative HTML representation
+// suitable for copying.
+//
+// Unfortunately, "formats/formula" defines this method as
+//
+// html() {
+//     const { formula } = this.value();
+//     return `<span>${formula}</span>`;
+// }
+//
+// and thus copies <span>[LATEX]</span> onto the clipboard.
+
+// This representation is entirely useless for us. When handling pasting, we do
+// not know where the user have copied the HTML from. The <span>[...]</span>
+// could totally been from some other website and its content is probably just
+// some text, not LaTeX code.
+//
+// Therefore we override this method, to instead return
+// <span class="almagest-latex">[LATEX]</span>
+// Since "almagest-latex" is a pretty "unique" name, whenever we see this
+// during a paste, we know that its content will be LaTeX code. For other
+// applications that do not know or care about Almagest, they will ignore the
+// class and the behavior is the same as before: pasting the LaTeX code.
+Quill.import("formats/formula").prototype.html = function() {
+	const { formula } = this.value();
+	return `<span class="almagest-latex">${formula}</span>`;
+}
+
+$.editor.quill.clipboard.addMatcher(".almagest-latex", (el) => {
+	const latex = el.innerText;
+	if (latex) return makeFormula(latex);
+});
+
 // Mediawiki math formula (Wikipedia, etc.)
 //
 // <div class="mwe-math-element">
