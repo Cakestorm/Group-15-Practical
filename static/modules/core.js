@@ -31,7 +31,7 @@ const noteLoadedPromise = (async () => {
         const noteid = location.hash.slice(1);
         const note = await $.api.note.get(noteid);
         $.editor.dataset.noteid = noteid;
-        $.editor.quill.setContents(note.contents, "silent");
+        $.editor.quill.setContents(note?.body || {}, "silent");
         $.editor.quill.history.clear();
         dispatchEvent(new CustomEvent("almagest:note-loaded"));
     }
