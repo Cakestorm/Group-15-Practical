@@ -63,6 +63,8 @@ class Index:
 
         processed_query = process_text(query)
         results = self._results(processed_query)
+        if not results:
+            return []
         if search_type == 'AND':
             # all tokens must be in the document
             documents = [self.documents[doc_id] for doc_id in set.intersection(*results)]
@@ -118,6 +120,9 @@ def load_documents(pth_list):
 def search_notes(search_text = "", pth_list = [], topn = -1,
                  search_type = 'OR', rank = True):
     
+    if search_text=="":
+        return pth_list
+    
     doc_list = load_documents(pth_list)
     index = Index()
     for doc in doc_list:
@@ -130,7 +135,7 @@ def search_notes(search_text = "", pth_list = [], topn = -1,
     top_matches = [doc.get_path() for doc in documents]
     return top_matches
 
-#pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
-#print(search_notes(search_text = "bacterial disease", pth_list=pth_list))
+pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+print(search_notes(search_text = "bacterial Phytoplasma disease", pth_list=pth_list, search_type='OR'))
 
 #https://bart.degoe.de/building-a-full-text-search-engine-150-lines-of-code/#fn:4

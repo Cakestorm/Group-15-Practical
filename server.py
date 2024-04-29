@@ -69,9 +69,9 @@ def get_server_config():
 def search():
     search_text = request.args.get("q", "")
     topn = int(request.args.get("n", 10))
-    # implementation
+    # Example implementation
     pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
-    top_matches = search_notes(search_text = "bacterial disease", pth_list=pth_list)
+    top_matches = search_notes(search_text = "bacterial Phytoplasma disease", pth_list=pth_list)
     return top_matches
 
 @app.route("/get_links")
