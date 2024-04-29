@@ -2,6 +2,7 @@ import os, json
 from flask import Flask
 from flask import request
 from static.backend_py.embeddings import get_linked_notes
+from static.backend_py.search import search_notes
 
 hostName = "localhost"
 serverPort = 8080
@@ -63,6 +64,15 @@ def edit_local_note(name):
 @app.route("/get_config")
 def get_server_config():
     return open("./server_config.json").read()
+
+@app.route("/search")
+def search():
+    search_text = request.args.get("q", "")
+    topn = int(request.args.get("n", 10))
+    # implementation
+    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+    top_matches = search_notes(search_text = "bacterial disease", pth_list=pth_list)
+    return top_matches
 
 @app.route("/get_links")
 def get_links():
