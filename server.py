@@ -61,3 +61,17 @@ def edit_local_note(name):
 @app.route("/get_config")
 def get_server_config():
     return open("./server_config.json").read()
+
+@app.route("/search")
+def search_notes():
+    # Backend full plain text search
+    #search_text = request.args.get("q", "")
+    #topn = int(request.args.get("n", 10))
+    # implementation
+    return "To be determined"
+
+@app.route("/get_links")
+def get_links():
+    # Backend function to extract linked notes based on semantic similarity
+    # Implementation
+    return "To be determined"
