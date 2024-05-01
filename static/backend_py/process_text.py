@@ -3,6 +3,7 @@ try:
     gensim_available = True
 except:
     gensim_available = False
+    print("Warning: unable to load gensim module. Searching functionality might be affected.")
 try:
     import nltk # an ancient module for language processing
     from nltk.corpus import stopwords          # module for stop words that come with NLTK
@@ -14,6 +15,7 @@ try:
     nltk_available = True
 except:
     nltk_available = False
+    print("Warning: unable to load nltk module. Searching functionality might be affected.")
 import re                                  # library for regular expression operations
 import string                              # for string operations
 PUNCTUATION = re.compile('[%s]' % re.escape(string.punctuation))

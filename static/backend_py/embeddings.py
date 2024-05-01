@@ -8,6 +8,7 @@ try:
     gensim_available = True
 except:
     gensim_available = False
+    print("Warning: unable to load gensim module. Note linking functionality will be affected.")
 from sklearn.metrics.pairwise import cosine_similarity
 
 # content has to be a parsed dictionary
