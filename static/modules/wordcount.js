@@ -1,5 +1,5 @@
 (async () => {
-let $ = Almagest;
+const $ = Almagest;
 // BEGIN MODULE
 
 const counter = document.createElement("span");

@@ -1,1 +1,7 @@
-{"module":{"example":{"message":"Configurated Message!"}}}
+{
+"module":{
+    "example":{
+        "message":"Configurated Message!"
+    }
+}
+}

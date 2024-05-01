@@ -17,7 +17,7 @@ def main():
 
 @app.route("/module_list")
 def get_local_module_list():
-    return ";".join([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
+    return json.dumps([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
     
 def is_module(path):
     if not path.startswith("/modules/"): return False
@@ -28,7 +28,19 @@ def is_module(path):
 
 @app.route("/note_list")
 def get_local_note_list():
-    return ";".join([a.replace(".note","") for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+    return json.dumps([get_id_name_pair(a.replace(".note","")) for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+
+# USE THIS FUNCTION TO COMBINE NAME AND TITLE
+def get_id_name_pair(note_id):
+    note_data = json.loads(open("./stored_notes/" + note_id + ".note").read())
+    if "title" in note_data.keys():
+        note_name = note_data["title"]
+    else:
+        note_name = note_id
+    return {
+        "id":note_id,
+        "name":note_name
+    }
 
 @app.route("/get_note/<path:name>")
 def get_local_note(name):
@@ -67,6 +79,7 @@ def get_server_config():
 
 @app.route("/search")
 def search():
+    # backend full plain text search
     search_text = request.args.get("q", "")
     topn = int(request.args.get("n", 10))
     # Example implementation
@@ -76,7 +89,8 @@ def search():
 
 @app.route("/get_links")
 def get_links():
-    # Example: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
+    # Backend function to extract linked notes based on semantic similarity
+    # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
     current_pth = "stored_notes/wos_notes/Article 1.note"
     pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
     top_mathces = get_linked_notes(current_pth=current_pth,

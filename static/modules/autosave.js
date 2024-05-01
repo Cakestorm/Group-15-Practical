@@ -19,7 +19,15 @@ $.editor.quill.on("text-change", () => {
     timer = setTimeout(async function doSave() {
         saving = true;
         await $.api.note.update($.editor.dataset.noteid, {
-            contents: $.editor.quill.getContents(),
+            title: (
+                $.editor.querySelector("h1")?.innerText ||
+                $.editor.querySelector("h2")?.innerText ||
+                $.editor.querySelector("h3")?.innerText ||
+                $.editor.quill.getText(0, 47).replace(/\s+/g, " ") + "..."
+            ),
+            body: $.editor.quill.getContents(),
+            text: $.editor.innerText,
+            updatedAt: new Date().getTime(),
         });
         saving = false;
 

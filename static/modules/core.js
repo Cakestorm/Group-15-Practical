@@ -31,7 +31,7 @@ const noteLoadedPromise = (async () => {
         const noteid = location.hash.slice(1);
         const note = await $.api.note.get(noteid);
         $.editor.dataset.noteid = noteid;
-        $.editor.quill.setContents(note.contents, "silent");
+        $.editor.quill.setContents(note?.body || {}, "silent");
         $.editor.quill.history.clear();
         dispatchEvent(new CustomEvent("almagest:note-loaded"));
     }
@@ -69,8 +69,8 @@ const searchLoadedPromise = (async () => {
 
     (await $.api.note.list()).slice(0, searchCount).forEach((note) => {
         const link = document.createElement("a");
-        link.href = `#${note}`;
-        link.innerText = note;
+        link.href = `#${note["id"]}`;
+        link.innerText = note["name"];
         const li = document.createElement("li");
         li.append(link);
         searchResult.append(li);
