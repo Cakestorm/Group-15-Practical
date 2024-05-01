@@ -1,1 +1,1 @@
-{"contents": {"ops": [{"insert": "\n"}]}}
+{"contents": {"ops": [{"insert": "\nQuadratic Equation: "}, {"insert": {"latexblock": "\\displaystyle{\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}}"}}, {"insert": " \n\nPythagoras' Theorem: "}, {"insert": {"latexblock": "a^2+b^2=c^2"}}, {"insert": " \n\nEinstein's Mass-Energy Equation: "}, {"insert": {"latexblock": "E=mc^2"}}, {"insert": " \n\nFibonacci Sequence: "}, {"insert": {"latexblock": "1,1,2,3,5,8,13,21,34,55,89,144"}}, {"insert": " \n"}]}}
