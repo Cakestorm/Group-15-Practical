@@ -24,10 +24,10 @@
   </main>
   <aside>
     <section id="side-search">
-      <h2>Search</h2>
-      <input type="text" />
+      <h2 id="aria-search-heading">Search</h2>
+      <input type="text" aria-labelledby="aria-search-heading" />
       <ol>
-        <li>&nbsp;<!--
+        <li aria-hidden="true">&nbsp;<!--
           Placeholder, to measure the space required for a result
           and thus calculate the number of results to display
         --></li>
@@ -36,7 +36,7 @@
     <section id="side-related">
       <h2>Related notes</h2>
       <ol>
-        <li>&nbsp;<!--
+        <li aria-hidden="true">&nbsp;<!--
           Placeholder, to measure the space required for a result
           and thus calculate the number of results to display
         --></li>
