@@ -1,6 +1,9 @@
 import os, json
 from flask import Flask
 from flask import request
+from static.backend_py.embeddings import get_linked_notes
+from static.backend_py.search import search_notes
+
 hostName = "localhost"
 serverPort = 8080
 
@@ -75,15 +78,21 @@ def get_server_config():
     return open("./server_config.json").read()
 
 @app.route("/search")
-def search_notes():
-    # Backend full plain text search
-    #search_text = request.args.get("q", "")
-    #topn = int(request.args.get("n", 10))
-    # implementation
-    return "To be determined"
+def search():
+    # backend full plain text search
+    search_text = request.args.get("q", "")
+    topn = int(request.args.get("n", 10))
+    # Example implementation
+    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+    top_matches = search_notes(search_text = "bacterial Phytoplasma disease", pth_list=pth_list)
+    return top_matches
 
 @app.route("/get_links")
 def get_links():
     # Backend function to extract linked notes based on semantic similarity
-    # Implementation
-    return "To be determined"
+    # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
+    current_pth = "stored_notes/wos_notes/Article 1.note"
+    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+    top_mathces = get_linked_notes(current_pth=current_pth,
+                              pth_list=pth_list, topn = 10)
+    return top_mathces
