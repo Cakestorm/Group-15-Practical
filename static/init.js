@@ -20,7 +20,7 @@ function restApi(resource) {
     return {
         async list() {
             const resp = await fetch(`${ENDPOINT}/${resource}_list`);
-            return (await resp.text()).split(";");
+            return (await resp.json());
         },
         async get(id) {
             const resp = await fetch(`${ENDPOINT}/get_${resource}/${id}`);

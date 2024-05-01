@@ -14,7 +14,7 @@ def main():
 
 @app.route("/module_list")
 def get_local_module_list():
-    return ";".join([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
+    return json.dumps([a for a in os.listdir("./static/modules/") if a.endswith(".js")])
     
 def is_module(path):
     if not path.startswith("/modules/"): return False
@@ -25,7 +25,19 @@ def is_module(path):
 
 @app.route("/note_list")
 def get_local_note_list():
-    return ";".join([a.replace(".note","") for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+    return json.dumps([get_id_name_pair(a.replace(".note","")) for a in os.listdir("./stored_notes/") if a.endswith(".note")])
+
+# USE THIS FUNCTION TO COMBINE NAME AND TITLE
+def get_id_name_pair(note_id):
+    note_data = json.loads(open("./stored_notes/" + note_id + ".note").read())
+    if "title" in note_data.keys():
+        note_name = note_data["title"]
+    else:
+        note_name = note_id
+    return {
+        "id":note_id,
+        "name":note_name
+    }
 
 @app.route("/get_note/<path:name>")
 def get_local_note(name):
