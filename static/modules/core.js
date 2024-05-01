@@ -74,8 +74,8 @@ const searchLoadedPromise = (async () => {
 
     (await $.api.note.list()).slice(0, searchCount).forEach((note) => {
         const link = document.createElement("a");
-        link.href = `#${note}`;
-        link.innerText = note;
+        link.href = `#${note["id"]}`;
+        link.innerText = note["name"];
         const li = document.createElement("li");
         li.append(link);
         searchResult.append(li);
