@@ -2,8 +2,12 @@ import json
 import os
 from pathlib import Path
 import numpy as np
-import gensim
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+try:
+    import gensim
+    from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+    gensim_available = True
+except:
+    gensim_available = False
 from sklearn.metrics.pairwise import cosine_similarity
 
 # content has to be a parsed dictionary
@@ -34,6 +38,10 @@ def get_document_embeddings(content={}):
 # top_matches: List[Path]. A list of paths to the linked notes, as a subset of pth_list.
 def get_linked_notes(current_pth = "stored_notes/wos_notes/Article 1.note",
                             pth_list=[], topn = 10):
+    # If gensim is not available, just return the entire list cuz your device sucks
+    if not gensim_available:
+        return pth_list
+    
     # Process current document
     if not os.path.isfile(current_pth):
         return "Error: No such file."
