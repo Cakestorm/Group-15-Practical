@@ -1,0 +1,19 @@
+{
+	"name": "Almagest",
+	"short_name": "Almagest",
+	"description": "A private note-taking App for academics",
+	"start_url": "/",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "/static/img/favicon-144.png",
+			"type": "image/png",
+			"sizes": "144x144"
+		},
+		{
+			"src": "/static/img/logo-light.png",
+			"type": "image/png",
+			"sizes": "324x174"
+		}
+	]
+}

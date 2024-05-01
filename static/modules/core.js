@@ -95,7 +95,7 @@ await Promise.all([
 Promise.all(
     (await $.api.module.list())
         .filter(mod => mod !== "core.js")
-        .map(mod => import(`/static/modules/${mod}`))
+        .map($.api.module.load)
 );
 
 // END MODULE

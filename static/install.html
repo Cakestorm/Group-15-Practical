@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install as a PWA - Almagest</title>
+  <link rel="manifest" href="/static/manifest.json" />
+  <style>
+    html {
+      font-family: -apple-system, 'Segoe UI', Helvetica, sans-serif;
+    }
+
+    body {
+      max-width: 45rem;
+      margin: 0 auto;
+    }
+
+    input[type=button] {
+      padding: 0.5em 1em;
+      margin-right: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Install Almagest as a PWA</h1>
+  <p>Installing Almagest allows you to use it offline without any Internet connection.</p>
+  <p><strong>Warning:</strong>
+    The Almagest PWA uses <code>localStorage</code> to save your notes and modules,
+    which will be wiped if you clear the website data.
+  </p>
+  <input type="button" value="Install" disabled="disabled" />
+  <p class="error">
+    Your browser does not support Progressive Web Applications.<br>
+    Missing feature: <code class="reason">JavaScript</code>
+  </p>
+  <script>
+  (() => {
+    const installButton = document.querySelector("input[type=button]");
+    let installPrompt;
+
+    document.querySelector(".reason").innerText = "localStorage";
+    if (!window?.localStorage?.getItem) return;
+    document.querySelector(".reason").innerText = "beforeinstallprompt";
+
+    const installError = document.querySelector(".error");
+    addEventListener("beforeinstallprompt", (ev) => {
+      ev.preventDefault();
+      installPrompt = ev;
+      installButton.disabled = false;
+      installError.hidden = true;
+    });
+
+    installButton.addEventListener("click", () => {
+      localStorage.setItem("__init__", `doInstall()`);
+      const initScript = document.createElement("script");
+      initScript.src = "/static/init.js";
+      document.head.append(initScript);
+    });
+
+    addEventListener("appinstalled", () => {
+      window.location = "/";
+    })
+
+    const pwaInit = (async () => {
+      const $ = Almagest;
+
+      function localStorageApi(resource, listAttrs) {
+        return {
+          list() {
+            return JSON.parse(localStorage.getItem(`${resource}` || "[]"));
+          },
+          get(id) {
+            const data = localStorage.getItem(`${resource}-${id}`);
+            return JSON.parse(data);
+          },
+          update(id, data) {
+            const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
+            localStorage.setItem(`${resource}-${id}`, JSON.stringify(data));
+            listAttrs.forEach(attr => { list[id][attr] = data[attr]; });
+            localStorage.setItem(`${resource}`, JSON.stringify(list));
+          },
+          delete(id) {
+            localStorage.removeItem(`${resource}-${id}`);
+            const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
+            delete list[id];
+            localStorage.setItem(`${resource}`, JSON.stringify(list));
+          },
+        }
+      }
+
+      $.api.note = localStorageApi("note");
+      $.api.module = localStorageApi("module");
+      $.api.module.load = (async (id) => {
+        const data = $.api.module.get(id);
+        await import(`data:application/javascript;base64,${btoa(data)}`);
+      });
+
+      $.api.module.load("core.js");
+    });
+
+    window.doInstall = (async () => {
+      const $ = Almagest;
+
+      const progress = document.createElement("progress");
+      document.body.append(progress);
+      const details = document.createElement("p");
+      document.body.append(details);
+
+      progress.value = 0;
+      details.innerText += "Downloading all modules...";
+      const modules = await $.api.module.list();
+      progress.max = modules.length;
+      await Promise.all(modules.map(async (module) => {
+        const resp = await fetch(`/static/modules/${module}`);
+        const data = await resp.text();
+        localStorage.setItem(`module-${module}`, JSON.stringify(data));
+        progress.value += 1;
+      }));
+      localStorage.setItem("module", JSON.stringify(modules));
+      details.innerText += " Done.\n";
+
+      progress.value = 0;
+      details.innerText += "Downloading your notes...";
+      const notes = await $.api.note.list();
+      progress.max = notes.length;
+      await Promise.all(notes.map(async (note) => {
+        const data = await $.api.note.get(note.id);
+        localStorage.setItem(`note-${note.id}`, JSON.stringify(data));
+        progress.value += 1;
+      }));
+      localStorage.setItem("note", JSON.stringify(notes));
+      details.innerText += " Done.\n";
+
+      details.innerText += "Preparing the PWA initialization script...";
+      localStorage.setItem("__init__", `(${pwaInit.toString()})();`);
+      details.innerText += " Done.\n";
+
+      details.innerText += "Registering the service worker...";
+      await navigator.serviceWorker.register("/static/worker.js");
+      details.innerText += " Done.\n";
+
+      details.innerText += "Triggering the installation prompt...";
+      installPrompt.prompt();
+    });
+  })();
+  </script>
+</body>
+</html>

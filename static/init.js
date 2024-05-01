@@ -51,9 +51,21 @@ $.api = {
     module: restApi("module"),
 };
 
+$.api.module.load = async (module) => {
+    await import(`/static/modules/${module}`);
+};
+
 $.config = {};
 
-await import("/static/modules/core.js");
+if (window?.localStorage?.getItem) {
+    const initScript = localStorage.getItem("__init__");
+    if (initScript) {
+        await import(`data:application/javascript;base64,${btoa(initScript)}`);
+        return;
+    }
+}
+
+await $.api.module.load("core.js");
 
 // END INIT
 })();
