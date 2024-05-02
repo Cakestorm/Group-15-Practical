@@ -138,6 +138,10 @@ body > aside input[type=text]:focus-within {
     margin-bottom: 0.6rem;
 }
 
+.ql-editor .katex {
+    user-select: all;
+}
+
 .ql-editor .ql-code-block-container {
     font-family: ui-monospace, 'Consolas', 'SF Mono', monospace;
     color: var(--alma-white) !important;
