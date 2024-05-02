@@ -2,7 +2,8 @@ import json
 from os import listdir
 from os.path import isfile, join
 import numpy as np
-from static.backend_py.search import search_notes
+from static.backend_py.search import search_notes, load_documents, is_note_file
+from static.backend_py.document import Document
 try:
     import gensim
     from gensim.models.doc2vec import Doc2Vec
@@ -13,13 +14,13 @@ except:
 from sklearn.metrics.pairwise import cosine_similarity
 
 # content has to be a parsed dictionary
-def get_document_embeddings(content={}):
-    body = content.get('text', "")
+def get_document_embeddings(document: Document):
+    body = document.get_body()
     if body == "":
         return "[Empty Body]", np.array([]), True
     
     body = gensim.utils.simple_preprocess(body)
-    embedding = content.get('embeddings', None)
+    embedding = document.get_embeddings()
     if embedding == None:
         model = Doc2Vec.load("static/backend_py/Trained_Embedding_Model")
         embedding = model.infer_vector(body)
@@ -30,12 +31,12 @@ def get_document_embeddings(content={}):
         
     return body, embedding, emb_exist
 
-def is_note_file(path):
-    if not isfile(path):
-        return False
-    if path.split('.')[-1] != 'note':
-        return False
-    return True
+def save_embeddings(path, embeddings):
+    with open(path, 'r') as f:
+        content = json.loads(f.read())
+        content['embeddings'] = list(embeddings.astype('str'))
+    with open(path, 'w') as f:
+        f.write(json.dumps(content))
 
 # Function to extract linked notes given a given notes
 #
@@ -59,42 +60,34 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
     # Process current document
     assert is_note_file(current_pth), current_pth+" not found or is not in valid .note format"
     
-    with open(current_pth, 'r') as f:
-        content = json.loads(f.read())
-        #If gensim is not available, just run search with TF-IDF with search_query as the content of current file.
-        if not gensim_available:
-            return search_notes(search_text=content.get('text', ''))
-        else:
-            this_body, this_embedding, emb_exist = get_document_embeddings(content)
+    current_doc : Document = next(load_documents([current_pth]))
+    #If gensim is not available, just run search with TF-IDF with search_query as the content of current file.
+    if not gensim_available:
+        return search_notes(search_text=current_doc.get_body())
+    else:
+        this_body, this_embedding, emb_exist = get_document_embeddings(current_doc)
     
     if not emb_exist: #Save embedding for future use
-        content['embeddings'] = list(this_embedding.astype('str'))
-        with open(current_pth, 'w') as f:
-            f.write(json.dumps(content))
+        save_embeddings(current_pth, this_embedding)
         
     # Process existing documents list
-    #body_list = []
+    doc_list = load_documents(pth_list)
     embedding_list = []
-    valid_pth_list = []
-    for path in pth_list:
-        if is_note_file(path):
-            with open(path, 'r') as f0:
-                content = json.loads(f0.read())
-                that_body, that_embedding, emb_exist = get_document_embeddings(content)
-                #body_list.append(that_body)
-                if len(that_embedding) > 0:
-                    valid_pth_list.append(path)
-                    embedding_list.append(that_embedding)
-            if not emb_exist: #Save embedding for future use
-                content['embeddings'] = list(that_embedding.astype('str'))
-                with open(path, 'w') as f:
-                    f.write(json.dumps(content))
+    valid_doc_list = []
+    for doc in doc_list:
+        that_body, that_embedding, emb_exist = get_document_embeddings(doc)
+        if len(that_embedding) > 0:
+            valid_doc_list.append(doc)
+            embedding_list.append(that_embedding)
+        if not emb_exist: #Save embedding for future use
+            save_embeddings(doc.get_path(), that_embedding)
 
     # Compare similarity
     assert len(embedding_list) > 0, "No existing documents to be linked."
     similarity_scores = cosine_similarity([this_embedding], embedding_list)[0]
     top_matches_indices = np.argsort(similarity_scores)[-topn:][::-1]
-    top_matches = [valid_pth_list[i] for i in top_matches_indices]
+    top_matches = [{'id':valid_doc_list[i].get_note_id(), 'title':valid_doc_list[i].get_title()} 
+                   for i in top_matches_indices]
     
     return top_matches
 

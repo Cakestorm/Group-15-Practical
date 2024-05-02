@@ -19,8 +19,11 @@ def load_documents(pth_list):
                 body = content.get('text', '')
                 title = content.get('title', '')
                 note_id = path.removeprefix("stored_notes/").removesuffix(".note")
+                embeddings = content.get('embeddings', None)
                 if body != '':
-                    yield(Document(doc_id, body, path, title, note_id)) #Returning a List(Document)
+                    yield(Document(ID=doc_id, body=body, path=path,
+                                   title=title, note_id=note_id,
+                                   embeddings=embeddings)) #Returning a List(Document)
 
 #==========Main Function===========
 # Params:
