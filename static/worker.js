@@ -89,7 +89,8 @@ self.addEventListener("install", (ev) => {
     ev.waitUntil((async () => {
         const cache = await caches.open(CACHE_NAME);
         cache.addAll(APP_STATIC_RESOURCES);
-    })())
+        cache.put("/static/index.html", await cache.match("/"));
+    })());
 });
 
 self.addEventListener("activate", (ev) => {

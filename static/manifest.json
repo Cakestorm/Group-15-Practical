@@ -2,7 +2,7 @@
 	"name": "Almagest",
 	"short_name": "Almagest",
 	"description": "A private note-taking App for academics",
-	"start_url": "/",
+	"start_url": "/static/index.html",
 	"display": "standalone",
 	"icons": [
 		{
