@@ -94,15 +94,17 @@ document.querySelector("#new-note").addEventListener("click", async () => {
 
 // Delete note button
 document.querySelector("#delete-note").addEventListener("click", async () => {
-    const noteid = location.hash.slice(1);
-    // Don't allow index to be deleted - instead delete its contents
-    // Go back to index after deletion
-    if (noteid != 'index') {
-        location.hash = '#index';
-        await $.api.note.delete(noteid);
-    }
-    else {
-        $.editor.quill.setContents([{ insert: '\n' }]);
+    if (confirm("Are you sure you want to delete this note?")) {
+        const noteid = location.hash.slice(1);
+        // Don't allow index to be deleted - instead delete its contents
+        // Go back to index after deletion
+        if (noteid != 'index') {
+            location.hash = '#index';
+            await $.api.note.delete(noteid);
+        }
+        else {
+            $.editor.quill.setContents([{ insert: '\n' }]);
+        }
     }
 });
 

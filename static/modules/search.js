@@ -7,22 +7,20 @@
     // Measure the size of the search result container (ol) and a search result
     // item (li), to calculate the number of items that can fit into the container
 
-    console.log(searchPrompts);
-
     let filtered = [];
     for (let prompt of searchPrompts) {
         if (prompt != "" && prompt != "\n") {
             filtered.push(prompt)
         }
     }
-    searchPrompts = filtered;
-    if (searchPrompts.length == 0) return;
+    if (filtered.length == 0) return;
+
+    console.log(filtered);
 
     const searchResults = [];
     const noteslist = (await $.api.note.list());
     for (let note of noteslist){
-        console.log(note)
-        for (let prompt of searchPrompts) {
+        for (let prompt of filtered) {
             if (note.name.toLowerCase().includes(prompt.toLowerCase()) &&
                 !searchResults.includes(note)) {
                 searchResults.push(note)
@@ -76,6 +74,7 @@
 
     // Do not wait for search to load; keep on initializing
     addEventListener("almagest:note-loaded", updateSearch);
+    addEventListener("hashchange", updateSearch)
 
     // END MODULE
     })();
