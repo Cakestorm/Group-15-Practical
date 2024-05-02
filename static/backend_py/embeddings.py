@@ -1,8 +1,8 @@
 import json
 from os import listdir
 from os.path import isfile, join
-from pathlib import Path
 import numpy as np
+from static.backend_py.search import search_notes
 try:
     import gensim
     from gensim.models.doc2vec import Doc2Vec
@@ -61,9 +61,9 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
     
     with open(current_pth, 'r') as f:
         content = json.loads(f.read())
-        # TODO: If gensim is not available, just run search with TF-IDF with search_query as the content of current file.
+        #If gensim is not available, just run search with TF-IDF with search_query as the content of current file.
         if not gensim_available:
-            return pth_list
+            return search_notes(search_text=content.get('text', ''))
         else:
             this_body, this_embedding, emb_exist = get_document_embeddings(content)
     
@@ -91,8 +91,7 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
                     f.write(json.dumps(content))
 
     # Compare similarity
-    if embedding_list==[]:
-        return "No existing documents to be linked."
+    assert len(embedding_list) > 0, "No existing documents to be linked."
     similarity_scores = cosine_similarity([this_embedding], embedding_list)[0]
     top_matches_indices = np.argsort(similarity_scores)[-topn:][::-1]
     top_matches = [valid_pth_list[i] for i in top_matches_indices]
