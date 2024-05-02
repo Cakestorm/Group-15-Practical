@@ -16,10 +16,12 @@
     const noteslist = (await $.api.note.list());
     for (let note of noteslist){
         console.log(note)
-        if (note.name.includes(searchPrompt)) {
+        if (note.name.toLowerCase().includes(searchPrompt.toLowerCase())) {
             searchResults.push(note)
         }
     }
+
+    searchResults.sort((a, b) => a.name.localeCompare(b.name));
 
     (async () => {
         const searchResult = sideSearch.querySelector("ol");

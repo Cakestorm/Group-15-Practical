@@ -69,11 +69,12 @@ const relatedCount = 9999;
 
 // Initialze the search panel in the side bar
 // No search query, just display some entries of the entire note list
+
 const searchLoadedPromise = (async () => {
     const searchResult = sideSearch.querySelector("ol");
     searchResult.querySelector("li").remove();
 
-    (await $.api.note.list()).slice(0, searchCount).forEach((note) => {
+    (await $.api.note.list()).slice(0, searchCount).sort((a, b) => a.name.localeCompare(b.name)).forEach((note) => {
         const link = document.createElement("a");
         link.href = `#${note.id}`;
         link.innerText = note.name || note.title;
