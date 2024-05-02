@@ -17,8 +17,10 @@ def load_documents(pth_list):
             with open(path, 'r') as f0:
                 content = json.loads(f0.read())
                 body = content.get('text', '')
+                title = content.get('title', '')
+                note_id = path.removeprefix("stored_notes/").removesuffix(".note")
                 if body != '':
-                    yield(Document(doc_id, body, path)) #Returning a List(Document)
+                    yield(Document(doc_id, body, path, title, note_id)) #Returning a List(Document)
 
 #==========Main Function===========
 # Params:
@@ -53,7 +55,7 @@ def search_notes(search_text = "", pth_list = [], topn = -1,
     if topn > 0: #If topn = -1, then return everything. Otherwise return the top n documents
         documents = documents[:topn]
         
-    top_matches = [doc.get_path() for doc in documents]
+    top_matches = [{ 'id': doc.get_note_id(), 'title': doc.get_title()} for doc in documents]
     return top_matches
 
 #pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]

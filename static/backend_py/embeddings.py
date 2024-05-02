@@ -3,7 +3,6 @@ from os import listdir
 from os.path import isfile, join
 from pathlib import Path
 import numpy as np
-import random
 try:
     import gensim
     from gensim.models.doc2vec import Doc2Vec
@@ -53,7 +52,7 @@ def get_linked_notes(current_pth = "stored_notes/Article 1.note",
         note_path = 'stored_notes/'
         list_dir = listdir(note_path)
         pth_list=[join(note_path, file) for file in list_dir if is_note_file(join(note_path, file))]
-    
+
     # If gensim is not available, just return the entire list cuz your device sucks
     if not gensim_available:
         return pth_list
@@ -88,5 +87,5 @@ def get_linked_notes(current_pth = "stored_notes/Article 1.note",
     
     return top_matches
 
-pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(2,300)]
-print(get_linked_notes(pth_list=[]))
+pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+print(get_linked_notes(pth_list=pth_list))

@@ -85,6 +85,7 @@ def search():
     search_type = request.args.get("t", "OR")
     rank = bool(request.args.get("r", True))
     pth_list = [] #If empty, the default will be everything in /stored_notes
+    # top_matches: a list of dictionary {note_id, title}
     top_matches = search_notes(search_text = search_text, pth_list=pth_list,
                                topn=topn, search_type=search_type, rank=rank)
     return top_matches
