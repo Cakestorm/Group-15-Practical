@@ -110,6 +110,9 @@
         // Thus we do not append " - Almagest" to the title.
         document.title = ev.detail?.title ? ev.detail.title : "";
       });
+      addEventListener("almagest:note-saved", (ev) => {
+        document.title = ev.detail?.title ? ev.detail.title : "";
+      });
     });
 
     window.doInstall = (async () => {

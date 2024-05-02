@@ -33,9 +33,11 @@ $.editor.quill.on("text-change", () => {
         });
         saving = false;
 
+        document.title = title ? `${title} - Almagest` : "Almagest";
         Array.from(document.querySelectorAll("body > aside li a"))
             .filter(item => item.href === noteUrl)
             .forEach(item => item.innerText = title);
+        dispatchEvent(new CustomEvent("almagest:note-saved", { detail: { title } }));
 
         if (resave) {
             resave = false;
