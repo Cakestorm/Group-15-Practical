@@ -73,15 +73,16 @@
       installError.hidden = true;
     });
 
-    installButton.addEventListener("click", () => {
+    installButton.onclick = () => {
+      installButton.disabled = true;
       localStorage.setItem("__init__", `doInstall()`);
       const initScript = document.createElement("script");
       initScript.src = "/static/init.js";
       document.head.append(initScript);
-    });
+    };
 
     addEventListener("appinstalled", () => {
-      window.location = "/";
+      window.location = "/static/index.html";
     })
 
     const pwaInit = (async () => {
@@ -184,7 +185,19 @@
       details.innerText += " Done.\n";
 
       details.innerText += "Triggering the installation prompt...";
-      installPrompt.prompt();
+      try {
+        await installPrompt.prompt();
+      } catch (err) {
+        // Too much time has past since the last click.
+        installButton.value = "Ready";
+        installButton.disabled = false;
+        installButton.onclick = (() => installPrompt.prompt());
+
+        details.innerText += " Failed.\n";
+        const manualInstall = document.createElement("strong");
+        manualInstall.innerText = `Please click the "Ready" button to install.`;
+        details.append(manualInstall);
+      }
     });
   })();
   </script>
