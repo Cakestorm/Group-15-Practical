@@ -12,7 +12,13 @@
 
     const searchPrompt = document.querySelector("#search").value
     console.log(searchPrompt);
-    const searchResults = await $.api.search(searchPrompt);
+    let searchResults;
+    if (searchPrompt.trim()) {
+        searchResults = await $.api.search(searchPrompt);
+    } else {
+        searchResults = await $.api.note.list();
+        searchResults.sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     (async () => {
         const searchResult = sideSearch.querySelector("ol");

@@ -44,7 +44,8 @@ def is_note_file(path):
 # @topn: The top n number of most similar notes to be returned
 #
 # Return:
-# top_matches: List[Path]. A list of paths to the linked notes, as a subset of pth_list.
+# top_matches: List[Dict{String, String}]. A list of dictionaries: {id, title} . 
+# The list is of size at most topn. Results are sorted in descending order of similarity scores.
 def get_linked_notes(current_pth = "stored_notes/Article 1.note",
                             pth_list=[], topn = 10):
     # default pth list: everything in the /stored_notes directory

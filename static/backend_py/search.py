@@ -31,9 +31,8 @@ def load_documents(pth_list):
 # @rank: Boolean. Whether to sort the search results based on term frequency and relevance score.
 #
 # Return:
-# top_matches: List[Path]. A list of paths to the searched notes of size at most topn, 
-#                           as a subset of pth_list. If rank=True, the notes are sorted in the 
-#                           descending order according to a relevance score, based on TF-IDF.
+# top_matches: List[Dict{String, String}]**. A list of dictionaries: {id, title} . 
+# The list is of size at most topn. The notes are sorted in the descending order according to a relevance score, based on TF-IDF.
 def search_notes(search_text = "", pth_list = [], topn = -1,
                  search_type = 'OR', rank = True):
     
@@ -42,14 +41,15 @@ def search_notes(search_text = "", pth_list = [], topn = -1,
         note_path = 'stored_notes/'
         list_dir = listdir(note_path)
         pth_list=[join(note_path, file) for file in list_dir if is_note_file(join(note_path, file))]
-        
-    if search_text=="":
-        return pth_list
     
     doc_list = load_documents(pth_list)
     index = Index()
     for doc in doc_list:
         index.index_document(doc)
+        
+    if search_text=="": #If empty search, just return everything
+        print("SHITTT")
+        return [{ 'id': doc.get_note_id(), 'title': doc.get_title()} for doc in doc_list]
     
     documents = index.search(query=search_text, search_type=search_type, rank=rank)
     if topn > 0: #If topn = -1, then return everything. Otherwise return the top n documents
