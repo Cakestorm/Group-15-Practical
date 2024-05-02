@@ -77,8 +77,9 @@
             data.id = data.id || crypto.randomUUID();
             localStorage.setItem(`${resource}-${data.id}`, JSON.stringify(data));
             const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
-            list.append(data);
+            list.push(data);
             localStorage.setItem(`${resource}`, JSON.stringify(list));
+            return data;
           },
           update(id, data) {
             const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
