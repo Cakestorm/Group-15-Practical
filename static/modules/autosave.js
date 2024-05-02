@@ -18,18 +18,24 @@ $.editor.quill.on("text-change", () => {
     clearTimeout(timer);
     timer = setTimeout(async function doSave() {
         saving = true;
+        const noteUrl = location.toString();
+        const title = (
+            $.editor.querySelector("h1")?.innerText ||
+            $.editor.querySelector("h2")?.innerText ||
+            $.editor.querySelector("h3")?.innerText ||
+            $.editor.quill.getText(0, 47).replace(/\s+/g, " ") + "..."
+        );
         await $.api.note.update($.editor.dataset.noteid, {
-            title: (
-                $.editor.querySelector("h1")?.innerText ||
-                $.editor.querySelector("h2")?.innerText ||
-                $.editor.querySelector("h3")?.innerText ||
-                $.editor.quill.getText(0, 47).replace(/\s+/g, " ") + "..."
-            ),
+            title,
             body: $.editor.quill.getContents(),
             text: $.editor.innerText,
             updatedAt: new Date().getTime(),
         });
         saving = false;
+
+        Array.from(document.querySelectorAll("body > aside li a"))
+            .filter(item => item.href === noteUrl)
+            .forEach(item => item.innerText = title);
 
         if (resave) {
             resave = false;
