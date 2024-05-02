@@ -1,4 +1,5 @@
 :root {
+  /** dank mode colours */
     --alma-black:#17171a;
     --alma-white:#edfaff;
     --alma-dark-grey:#1d1d26;
@@ -9,6 +10,9 @@
     --alma-green:#50c75a;
     --alma-purple:#332966;
     --alma-red:#c75a5a
+    
+  /** light mode colours */
+    /*--alma-black-light:*/
 }
 
 ::selection{
@@ -51,9 +55,9 @@ body {
         2fr     1fr;
     gap: 1rem 2rem;
     
-    background-image: url(/static/img/background.png);
+    background-image: url(/static/img/background-test.png);
     image-rendering: pixelated;
-    animation: scrolling 150s linear infinite
+    animation: scrolling 750s linear infinite
 }
 
 @keyframes scrolling{
@@ -61,7 +65,7 @@ body {
       background-position: 0 0;
   }
   to{
-      background-position: 105% 105%;
+      background-position: 245% 131%;
   }   
 }
 
@@ -231,8 +235,7 @@ body > aside li{
 
 body > aside li a {
     color: var(--alma-turquoise);
-    text-decoration-line: underline;
-    text-decoration-thickness: 0.125rem;
+    text-decoration-line: none;
     transition: 0.1s ease-in-out;
     font-size:1rem;  
 }
