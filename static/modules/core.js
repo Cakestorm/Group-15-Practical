@@ -33,7 +33,8 @@ const noteLoadedPromise = (async () => {
         $.editor.dataset.noteid = noteid;
         $.editor.quill.setContents(note?.body || {}, "silent");
         $.editor.quill.history.clear();
-        dispatchEvent(new CustomEvent("almagest:note-loaded"));
+        document.title = note.title ? `${note.title} - Almagest` : "Almagest";
+        dispatchEvent(new CustomEvent("almagest:note-loaded", { detail: note }));
     }
 
     // TODO: find the default note, instead of hard coding "index"
@@ -69,14 +70,20 @@ const searchLoadedPromise = (async () => {
 
     (await $.api.note.list()).slice(0, searchCount).forEach((note) => {
         const link = document.createElement("a");
-        link.href = `#${note["id"]}`;
-        link.innerText = note["name"];
+        link.href = `#${note.id}`;
+        link.innerText = note.name || note.title;
         const li = document.createElement("li");
         li.append(link);
         searchResult.append(li);
     })
 })();
 // Do not wait for search to load; keep on initializing
+
+// New note button
+document.querySelector("#new-note").addEventListener("click", async () => {
+    const { id } = await $.api.note.create({});
+    location.hash = `#${id}`;
+});
 
 // TODO: Initialize the "Related notes" panel
 console.log(relatedCount);
@@ -95,7 +102,7 @@ await Promise.all([
 Promise.all(
     (await $.api.module.list())
         .filter(mod => mod !== "core.js")
-        .map(mod => import(`/static/modules/${mod}`))
+        .map($.api.module.load)
 );
 
 // END MODULE
