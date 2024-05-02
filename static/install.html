@@ -96,6 +96,12 @@
       });
 
       $.api.module.load("core.js");
+
+      addEventListener("almagest:note-loaded", (ev) => {
+        // In a PWA, the window title will be "Almagest - [document.title]"
+        // Thus we do not append " - Almagest" to the title.
+        document.title = ev.detail?.title ? ev.detail.title : "";
+      });
     });
 
     window.doInstall = (async () => {

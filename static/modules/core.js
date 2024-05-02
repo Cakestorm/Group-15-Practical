@@ -34,7 +34,7 @@ const noteLoadedPromise = (async () => {
         $.editor.quill.setContents(note?.body || {}, "silent");
         $.editor.quill.history.clear();
         document.title = note.title ? `${note.title} - Almagest` : "Almagest";
-        dispatchEvent(new CustomEvent("almagest:note-loaded"));
+        dispatchEvent(new CustomEvent("almagest:note-loaded", { detail: note }));
     }
 
     // TODO: find the default note, instead of hard coding "index"
