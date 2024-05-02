@@ -12,6 +12,7 @@ $.editor.quill = new Quill($.editor, {
             [{ color: ['#17171a', '#201f33', '#332966', '#47a1b3', '#98add9', '#edfaff', '#201f33', '#52cca3', '#50c75a'] }, { align: [] }],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link"],
+            ["formula"]
         ],
     },
 });
@@ -89,6 +90,17 @@ const searchLoadedPromise = (async () => {
 document.querySelector("#new-note").addEventListener("click", async () => {
     const { id } = await $.api.note.create({});
     location.hash = `#${id}`;
+});
+
+// Delete note button
+document.querySelector("#delete-note").addEventListener("click", async () => {
+    const noteid = location.hash.slice(1);
+    // Don't allow index to be deleted
+    // Go back to index after deletion
+    if (noteid != 'index') {
+        location.hash = '#index';
+        await $.api.note.delete(noteid);
+    }
 });
 
 // TODO: Initialize the "Related notes" panel
