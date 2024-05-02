@@ -1,1 +1,4 @@
-__pycache__/server.cpython-312.pyc
+.DS_Store
+env/
+venv/
+__pycache__/

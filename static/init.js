@@ -60,6 +60,10 @@ function restApi(resource) {
 $.api = {
     note: restApi("note"),
     module: restApi("module"),
+    async search(prompt) {
+        const resp = await fetch("/search?q=" + encodeURIComponent(prompt));
+        return resp.json();
+    },
 };
 
 $.api.module.load = async (module) => {

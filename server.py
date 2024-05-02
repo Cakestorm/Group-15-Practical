@@ -1,6 +1,9 @@
 import os, json
 from flask import Flask
 from flask import request
+from static.backend_py.embeddings import get_linked_notes
+from static.backend_py.search import search_notes
+
 hostName = "localhost"
 serverPort = 8080
 
@@ -75,15 +78,25 @@ def get_server_config():
     return open("./server_config.json").read()
 
 @app.route("/search")
-def search_notes():
-    # Backend full plain text search
-    #search_text = request.args.get("q", "")
-    #topn = int(request.args.get("n", 10))
-    # implementation
-    return "To be determined"
+def search():
+    # backend full plain text search, with option to rank the search based on TF-IDF
+    search_text = request.args.get("q", "bacterial Phytoplasma disease")
+    topn = int(request.args.get("n", -1))
+    search_type = request.args.get("t", "OR")
+    rank = bool(request.args.get("r", True))
+    pth_list = [] #If empty, the default will be everything in /stored_notes
+    # top_matches: a list of dictionary {note_id, title}
+    top_matches = search_notes(search_text = search_text, pth_list=pth_list,
+                               topn=topn, search_type=search_type, rank=rank)
+    return top_matches
 
 @app.route("/get_links")
 def get_links():
     # Backend function to extract linked notes based on semantic similarity
-    # Implementation
-    return "To be determined"
+    # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
+    file_name = request.args.get("f", "Article 1")
+    topn = int(request.args.get("n", 10))
+    current_pth = "stored_notes/"+ file_name + ".note"
+    pth_list = [] #If empty, the default will be everything in /stored_notes
+    top_mathces = get_linked_notes(current_pth=current_pth, pth_list=pth_list, topn = topn)
+    return top_mathces
