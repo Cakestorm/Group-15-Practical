@@ -91,6 +91,17 @@ document.querySelector("#new-note").addEventListener("click", async () => {
     location.hash = `#${id}`;
 });
 
+// Delete note button
+document.querySelector("#delete-note").addEventListener("click", async () => {
+    const noteid = location.hash.slice(1);
+    // Don't allow index to be deleted
+    // Go back to index after deletion
+    if (noteid != 'index') {
+        location.hash = '#index';
+        await $.api.note.delete(noteid);
+    }
+});
+
 // TODO: Initialize the "Related notes" panel
 console.log(relatedCount);
 
