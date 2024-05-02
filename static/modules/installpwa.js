@@ -24,6 +24,13 @@ style.innerText = `
 	color: var(--alma-white);
 	background-color: var(--alma-purple);
 }
+
+@media (prefers-color-scheme: dark) {
+	#install-pwa {
+		color: var(--alma-purple);
+		background-color: var(--alma-green);
+	}
+}
 `;
 document.head.append(style);
 

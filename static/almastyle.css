@@ -65,8 +65,6 @@ body > aside ol {
     margin-bottom: 0;
     padding-left: 0;
     height: 100%;
-    font-size: 1.4rem;
-    line-height: 1.4;
 }
 
 /* Page style */
@@ -79,27 +77,35 @@ body > aside ol {
  * inputs in the sidebar (right now there is only one input, but this will
  * target any future input added there too). */
 
-/* XXX: What follows is purely for illustration; please restyle. */
-
 html {
     font-family: -apple-system, 'Segoe UI', Helvetica, sans-serif;
+    color: var(--alma-black);
+    background-color: var(--alma-white);
 }
 
 body > aside li a {
     text-decoration: none;
     color: var(--alma-grey);
+    transition: text-shadow 0.2s ease-in-out;
+}
+
+body > aside li a:hover {
+    text-shadow: 1px 1px 5px var(--alma-purple);
 }
 
 body > aside input[type=text] {
+    min-height: 2.4em;
+    box-sizing: border-box;
     padding: 0.25em 0.5em;
-    background: var(--alma-turquoise);
+    background: #fcfeff;
     border: 2px solid var(--alma-purple);
     transition: border 0.2s ease-in-out;
     outline: none;
 }
 
-body > aside input[type=text]:hover {
-    border: 4px solid var(--alma-purple);
+body > aside input[type=text]:hover,
+body > aside input[type=text]:focus-within {
+    border-width: 4px;
 }
 
 /* Editor style */
@@ -116,16 +122,72 @@ body > aside input[type=text]:hover {
  *   background-color: green;
  * } */
 
-/* XXX: What follows is purely for illustration; please restyle. */
-
 .ql-editor {
-    background: radial-gradient(var(--alma-purple), var(--alma-blue));
-    color: white;
+    background-color: #fcfeff;
+    border: 2px solid var(--alma-purple);
+    transition: border 0.2s ease-in-out;
+    font-family: -apple-system, 'Segoe UI', Helvetica, sans-serif;
 }
 
-.ql-toolbar button.ql-bold {
-    background-color: var(--alma-light-blue);
+.ql-editor:hover, .ql-editor:focus-within {
+    border-width: 4px;
 }
-.ql-toolbar button.ql-bold .ql-stroke {
-    stroke: var(--alma-green);
+
+.ql-editor p {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.ql-editor .ql-code-block-container {
+    font-family: ui-monospace, 'Consolas', 'SF Mono', monospace;
+    color: var(--alma-white) !important;
+    background-color: var(--alma-purple) !important;
+    border-radius: 0 !important;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: var(--alma-grey);
+        color: var(--alma-white);
+    }
+
+    body > aside input[type=text] {
+        background-color: var(--alma-black);
+        border-color: var(--alma-green);
+    }
+
+    body > aside li a { color: var(--alma-light-blue) }
+    body > aside li a:hover { text-shadow: 1px 1px 5px var(--alma-blue) }
+
+    .ql-toolbar .ql-picker  { color: var(--alma-white) !important }
+    .ql-toolbar svg .ql-stroke { stroke: var(--alma-white) !important }
+    .ql-toolbar svg .ql-fill { fill: var(--alma-white) !important }
+    .ql-toolbar button:hover { color: var(--alma-blue) !important }
+    .ql-toolbar button:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar button:hover .ql-fill { fill: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover { color: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover .ql-fill { fill: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover { color: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover .ql-fill { fill: var(--alma-blue) !important }
+
+    .ql-toolbar .ql-picker-options {
+        color: var(--alma-white) !important;
+        background-color: var(--alma-grey) !important;
+    }
+
+    .ql-editor {
+        background-color: var(--alma-black);
+        border-color: var(--alma-green);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .ql-editor,
+    body > aside input[type=text] {
+        transition: unset;
+    }
 }
