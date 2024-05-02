@@ -2,6 +2,7 @@
 const $ = Almagest;
 // BEGIN MODULE
 // Initialize Quill editor
+
 $.editor = document.querySelector("body > main article");
 $.editor.quill = new Quill($.editor, {
     theme: "snow",

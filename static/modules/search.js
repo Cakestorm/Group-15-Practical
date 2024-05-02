@@ -46,7 +46,17 @@
     })();
     }
 
-    async function updateSearch (){
+    async function updateSideSearch (){
+        // Initialize the sidebar
+        const sidebar = document.querySelector("body > aside");
+        const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
+
+        // Side search
+        let searchPrompts = document.querySelector("#search").value.split(" ");
+        search(searchPrompts, sideSearch);
+    }
+
+    async function updateAllSearch (){
         // Initialize the sidebar
         const sidebar = document.querySelector("body > aside");
         const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
@@ -70,12 +80,11 @@
         }
     }
     
-    document.querySelector("#search").addEventListener("input", debounce(updateSearch));
+    document.querySelector("#search").addEventListener("input", debounce(updateSideSearch));
 
     // Do not wait for search to load; keep on initializing
-    addEventListener("almagest:note-loaded", updateSearch);
-    addEventListener("hashchange", updateSearch)
+    addEventListener("almagest:note-loaded", updateAllSearch);
+    addEventListener("hashchange", updateAllSearch);
 
     // END MODULE
     })();
-    
