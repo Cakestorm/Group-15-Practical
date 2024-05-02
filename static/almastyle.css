@@ -12,7 +12,7 @@
 
 ::selection{
     background: var(--alma-turquoise);
-    /** If anyone knows how to make the background bigger do let me know
+    /** If anyone knows how to make the background bigger do let me know */
 }
 
 @font-face {
@@ -44,8 +44,8 @@ body {
     padding: 1rem 1.5rem;
     display: grid;
     grid-template:
-        "header sidebar" 6rem
-        "editor sidebar" 30rem
+        "header sidebar" 15%
+        "editor sidebar" 65%
         ".      .      " 3rem /
         2fr     1fr;
     gap: 1rem 2rem;
@@ -139,6 +139,7 @@ body > aside div.loaded-notes{
     overflow:scroll;
     scrollbar-color: var(--alma-grey) var(--alma-black);
     max-height: 23rem;
+    margin-top:1rem;
 }
 
 body > aside ol {
@@ -344,7 +345,7 @@ body > aside h3 {
 }
 
 .ql-editor h1,h2,h3,h4,h5,h6 {
-    color: var(--alma-white);   
+    color: var(--alma-blue);   
     font-family: 'BasicHandwriting';     
 }
 
