@@ -33,6 +33,7 @@ const noteLoadedPromise = (async () => {
         $.editor.dataset.noteid = noteid;
         $.editor.quill.setContents(note?.body || {}, "silent");
         $.editor.quill.history.clear();
+        document.title = note.title ? `${note.title} - Almagest` : "Almagest";
         dispatchEvent(new CustomEvent("almagest:note-loaded"));
     }
 
