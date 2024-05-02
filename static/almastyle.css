@@ -142,6 +142,11 @@ body > aside input[type=text]:focus-within {
     user-select: all;
 }
 
+.ql-editor .ql-formula {
+    display: inline-block;
+    background-color: inherit;
+}
+
 .ql-editor .ql-code-block-container {
     font-family: ui-monospace, 'Consolas', 'SF Mono', monospace;
     color: var(--alma-white) !important;
