@@ -18,7 +18,7 @@
 
 @font-face {
     font-family: 'BasicHandwriting';
-    src: url('UI_assets/BasicHandwriting.ttf') format('truetype')
+    src: url('/static/fonts/BasicHandwriting.ttf') format('truetype')
     /** TODO: Other formats e.g. .woff, .woff2 etc etc etc */
 }
 
@@ -51,7 +51,7 @@ body {
         2fr     1fr;
     gap: 1rem 2rem;
     
-    background-image: url(UI_assets/BG1.png);
+    background-image: url(/static/img/background.png);
     image-rendering: pixelated;
     animation: scrolling 150s linear infinite
 }
