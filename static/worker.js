@@ -2,10 +2,15 @@ const VERSION = "v0";
 const CACHE_NAME = `almagest-${VERSION}`;
 const APP_STATIC_RESOURCES = [
     "/",
+    "/static/worker.js",
     "/static/install.html",
     "/static/manifest.json",
     "/static/almastyle.css",
     "/static/init.js",
+    "/static/fonts/BasicHandwriting.ttf",
+    "/static/img/background.png",
+    "/static/img/decor-left.png",
+    "/static/img/decor-right.png",
     "/static/img/logo-light.png",
     "/static/img/logo-dark.png",
     "/static/img/favicon-16.png",
