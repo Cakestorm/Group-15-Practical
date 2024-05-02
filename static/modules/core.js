@@ -1,21 +1,17 @@
 (async () => {
 const $ = Almagest;
 // BEGIN MODULE
-
 // Initialize Quill editor
 $.editor = document.querySelector("body > main article");
 $.editor.quill = new Quill($.editor, {
     theme: "snow",
     modules: {
-        toolbar: [
+        toolbar: [ //HB: I removed stuff that'd be really inconvenient to style, that's not really necessary anyways.
             [{ header: [] }],
-            ["bold", "italic", "underline", "strike", "code"],
-            [{ color: [] }, { background: [] }, { align: [] }],
-            [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-            ["blockquote", "code-block"],
-            ["link", "image", "video"],
-            [{ script: "sub" }, { script: "super" }, "formula"],
-            ["clean"],
+            ["bold", "italic", "underline"],
+            [{ color: ['#17171a', '#201f33', '#332966', '#47a1b3', '#98add9', '#edfaff', '#201f33', '#52cca3', '#50c75a'] }, { align: [] }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link"],
         ],
     },
 });
@@ -50,17 +46,26 @@ const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
 
 // Measure the size of the search result container (ol) and a search result
 // item (li), to calculate the number of items that can fit into the container
+
+/** HB - due to changes in the way the website is styled, we can
+  * load arbitrarily many notes. I just opted to set this as a big constant (9999)
+  * wherever it was previously used. 
 const searchCount = Math.floor(
     sideSearch.querySelector("ol").clientHeight /
     sideSearch.querySelector("li").clientHeight
 );
+*/
+const searchCount = 9999;
 
 // Measure the size of the related result container (ol) and a related result
 // item (li), to calculate the number of items that can fit into the container
+
+/** HB - As above. 
 const relatedCount = Math.floor(
     sideRelated.querySelector("ol").clientHeight /
     sideRelated.querySelector("li").clientHeight
-);
+); */
+const relatedCount = 9999;
 
 // Initialze the search panel in the side bar
 // No search query, just display some entries of the entire note list
