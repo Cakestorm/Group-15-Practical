@@ -191,3 +191,25 @@ body > aside input[type=text]:focus-within {
         transition: unset;
     }
 }
+
+@media print {
+    html, .ql-editor {
+        background: white;
+    }
+
+    body {
+        grid-template: "editor";
+    }
+
+    body > header, body > aside {
+        display: none;
+    }
+
+    .ql-toolbar {
+        display: none;
+    }
+
+    .ql-container, .ql-editor {
+        border: none !important;
+    }
+}
