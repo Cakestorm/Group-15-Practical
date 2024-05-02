@@ -547,5 +547,24 @@ body > aside h3 {
     color:var(--alma-white);
 }
 
+.ql-snow .ql-tooltip input[type=text] {
+    color: var(--alma-white);
+    font-family:'BasicHandwriting';
+    font-size:1rem;
+    
+    background-color: var(--alma-grey);
+    border: 0.25rem solid var(--alma-grey);
+    margin: 0rem;
+    padding: 0.5rem;
+    outline: none;    
+    transition: 0.1s ease-in-out;
+}
+
+.ql-snow .ql-tooltip input[type=text]:hover {
+    border: 0.25rem solid var(--alma-purple);
+    padding: 0.75rem;
+    margin: -0.25rem;
+}
+
 /** will do the light theme later */
 
