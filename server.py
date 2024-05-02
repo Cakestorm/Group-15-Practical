@@ -82,8 +82,7 @@ def search():
     # backend full plain text search
     search_text = request.args.get("q", "bacterial Phytoplasma disease")
     topn = int(request.args.get("n", -1))
-    # Example implementation
-    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+    pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]
     top_matches = search_notes(search_text = search_text, pth_list=pth_list, topn=topn)
     return top_matches
 
@@ -91,8 +90,9 @@ def search():
 def get_links():
     # Backend function to extract linked notes based on semantic similarity
     # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
-    current_pth = "stored_notes/wos_notes/Article 1.note"
-    pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(2,300)]
-    top_mathces = get_linked_notes(current_pth=current_pth,
-                              pth_list=pth_list, topn = 10)
+    file_name = request.args.get("f", "Article 1")
+    topn = int(request.args.get("n", 10))
+    current_pth = "stored_notes/"+ file_name + ".note"
+    pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+    top_mathces = get_linked_notes(current_pth=current_pth, pth_list=pth_list, topn = topn)
     return top_mathces

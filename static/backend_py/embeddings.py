@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 try:
     import gensim
-    from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+    from gensim.models.doc2vec import Doc2Vec
     gensim_available = True
 except:
     gensim_available = False
@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # content has to be a parsed dictionary
 def get_document_embeddings(content={}):
-    body = content.get('body', "")
+    body = content.get('text', "")
     if body == "":
         return "[Empty Body]", np.array([])
     

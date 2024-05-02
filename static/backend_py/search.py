@@ -8,7 +8,7 @@ def load_documents(pth_list):
         if os.path.isfile(path):
             with open(path, 'r') as f0:
                 content = json.loads(f0.read())
-                body = content['body']
+                body = content['text']
                 yield(Document(doc_id, body, path)) #Returning a List(Document)
 
 #==========Main Function===========
