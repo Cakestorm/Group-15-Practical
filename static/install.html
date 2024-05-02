@@ -175,8 +175,12 @@
       localStorage.setItem("__init__", `(${pwaInit.toString()})();`);
       details.innerText += " Done.\n";
 
+      progress.max = 1;
+      progress.value = 0;
       details.innerText += "Registering the service worker...";
-      await navigator.serviceWorker.register("/static/worker.js");
+      navigator.serviceWorker.register("/static/worker.js");
+      await navigator.serviceWorker.ready;
+      progress.value = 1;
       details.innerText += " Done.\n";
 
       details.innerText += "Triggering the installation prompt...";
