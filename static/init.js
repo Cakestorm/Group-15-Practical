@@ -26,6 +26,17 @@ function restApi(resource) {
             const resp = await fetch(`${ENDPOINT}/get_${resource}/${id}`);
             return await resp.json();
         },
+        async create(data) {
+            const id = data?.id || crypto.randomUUID();
+            await fetch(`${ENDPOINT}/post_${resource}/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            return { id, ...data };
+        },
         async update(id, data) {
             await fetch(`${ENDPOINT}/post_${resource}/${id}`, {
                 method: "POST",
@@ -51,9 +62,21 @@ $.api = {
     module: restApi("module"),
 };
 
+$.api.module.load = async (module) => {
+    await import(`/static/modules/${module}`);
+};
+
 $.config = {};
 
-await import("/static/modules/core.js");
+if (window?.localStorage?.getItem) {
+    const initScript = localStorage.getItem("__init__");
+    if (initScript) {
+        await import(`data:application/javascript;base64,${btoa(initScript)}`);
+        return;
+    }
+}
+
+await $.api.module.load("core.js");
 
 // END INIT
 })();

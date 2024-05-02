@@ -3,13 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="colorscheme" content="light dark" />
+  <meta name="color-scheme" content="light dark" />
   <link rel="stylesheet" href="/static/lib/quill/quill.snow.css" />
   <link rel="stylesheet" href="/static/lib/katex/katex.min.css" />
   <link rel="stylesheet" href="/static/almastyle.css" />
   <script src="/static/lib/quill/quill.js" defer="defer"></script>
   <script src="/static/lib/katex/katex.min.js" defer="defer"></script>
   <script src="/static/init.js" defer="defer"></script>
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/static/img/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="57x57" href="/static/img/favicon-57.png" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/static/img/favicon-64.png" />
+  <link rel="icon" type="image/png" sizes="72x72" href="/static/img/favicon-72.png" />
+  <link rel="icon" type="image/png" sizes="114x114" href="/static/img/favicon-114.png" />
+  <link rel="icon" type="image/png" sizes="144x144" href="/static/img/favicon-144.png" />
+  <link rel="icon" type="image/png" sizes="167x167" href="/static/img/favicon-167.png" />
+  <link rel="icon" type="image/png" sizes="180x180" href="/static/img/favicon-180.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon-192.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="16x16" href="/static/img/favicon-16.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="32x32" href="/static/img/favicon-32.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="/static/img/favicon-48.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="57x57" href="/static/img/favicon-57.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="64x64" href="/static/img/favicon-64.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="72x72" href="/static/img/favicon-72.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="114x114" href="/static/img/favicon-114.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="144x144" href="/static/img/favicon-144.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="167x167" href="/static/img/favicon-167.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/img/favicon-180.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="/static/img/favicon-192.png" />
   <title>Almagest</title>
 </head>
 <body>
@@ -18,6 +40,7 @@
       <source srcset="/static/UI_assets/almaLogo1.png" />
       <img src="/static/img/logo-light.png" alt="site logo" media="only (prefers-color-scheme: light)" />
     </picture></div>
+    <input id="new-note" type="button" value="New Note" />
   </header>
   <main>
   <center><div style="color:#332966;font-size:16px"class="decor-text"> a tool by hera brown, junyuan chen, owen guo, mikolaj kalicinski, cem kozanoglu, jonathan kuck and jacob roe </div><br><br></center>
@@ -28,11 +51,11 @@
     <img src="/static/UI_assets/OtherDecorBit1.png" class="decor-right">  
     <section id="side-search"> 
       <h2>Search for Notes</h2>
-      <input type="text" />
+      <input type="text" aria-labelledby="aria-search-heading" />
       <div class="loaded-notes">
       <h3>Results</h3><br>
       <ol>
-        <li>&nbsp;<!--
+        <li aria-hidden="true">&nbsp;<!--
           Placeholder, to measure the space required for a result
           and thus calculate the number of results to display
         --></li>
@@ -42,7 +65,7 @@
     <section id="side-related">
       <h2>Related notes</h2>
       <ol>
-        <li>&nbsp;<!--
+        <li aria-hidden="true">&nbsp;<!--
           Placeholder, to measure the space required for a result
           and thus calculate the number of results to display
         --></li>

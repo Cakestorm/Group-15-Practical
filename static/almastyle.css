@@ -172,8 +172,6 @@ a{
  * inputs in the sidebar (right now there is only one input, but this will
  * target any future input added there too). */
 
-/* XXX: What follows is purely for illustration; please restyle. */
-
 html {
     font-family: 'BasicHandwriting';
 }
@@ -280,6 +278,7 @@ body > aside h3 {
  * To make the entire editor has green background, write
  * .ql-editor {
  *   background-color: green;
+
  * }
  *
  * alright -HB */
@@ -339,6 +338,91 @@ body > aside h3 {
     /**Underline width */
     text-decoration-line: underline;
     text-decoration-thickness: 0.125rem;
+
+/** HB - I WILL FIX THIS !!!
+.ql-editor .katex {
+    user-select: all;
+}
+
+.ql-editor .ql-formula {
+    display: inline-block;
+    background-color: inherit;
+}
+
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: var(--alma-grey);
+        color: var(--alma-white);
+    }
+
+    body > header #new-note {
+        color: var(--alma-purple);
+        background-color: var(--alma-light-blue);
+    }
+
+    body > aside input[type=text] {
+        background-color: var(--alma-black);
+        border-color: var(--alma-green);
+    }
+
+    body > aside li a { color: var(--alma-light-blue) }
+    body > aside li a:hover { text-shadow: 1px 1px 5px var(--alma-blue) }
+
+    .ql-toolbar .ql-picker  { color: var(--alma-white) !important }
+    .ql-toolbar svg .ql-stroke { stroke: var(--alma-white) !important }
+    .ql-toolbar svg .ql-fill { fill: var(--alma-white) !important }
+    .ql-toolbar button:hover { color: var(--alma-blue) !important }
+    .ql-toolbar button:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar button:hover .ql-fill { fill: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover { color: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-label:hover .ql-fill { fill: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover { color: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover .ql-stroke { stroke: var(--alma-blue) !important }
+    .ql-toolbar .ql-picker-item:hover .ql-fill { fill: var(--alma-blue) !important }
+
+    .ql-toolbar .ql-picker-options {
+        color: var(--alma-white) !important;
+        background-color: var(--alma-grey) !important;
+    }
+
+    .ql-editor {
+        background-color: var(--alma-black);
+        border-color: var(--alma-green);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .ql-editor,
+    body > aside input[type=text] {
+        transition: unset;
+    }
+}
+
+@media print {
+    html, .ql-editor {
+        background: white;
+    }
+
+    body {
+        grid-template: "editor";
+    }
+
+    body > header, body > aside {
+        display: none;
+    }
+
+    .ql-toolbar {
+        display: none;
+    }
+
+    .ql-container, .ql-editor {
+        border: none !important;
+    }
+  */
 }
 
 /** Toolbar */
