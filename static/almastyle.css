@@ -49,7 +49,19 @@ body {
         ".      .      " 3rem /
         2fr     1fr;
     gap: 1rem 2rem;
-    background: var(--alma-black);
+    
+    background-image: url(UI_assets/BG1.png);
+    image-rendering: pixelated;
+    animation: scrolling 150s linear infinite
+}
+
+@keyframes scrolling{
+   from{
+      background-position: 0 0;
+  }
+  to{
+      background-position: 105% 105%;
+  }   
 }
 
 body > header {
@@ -57,12 +69,49 @@ body > header {
     display: flex;
     
     margin-bottom: -1.8875rem;
-    padding-left:11rem;
+    max-width: 70%;
 }
 
 body > main {
     grid-area: editor;
     max-width: 70%;
+    
+    position:relative;
+}
+
+body > main .decor-left{
+    width:118%;
+    max-width:118%;
+    text-align: center;
+    position:absolute;
+    z-index:-10;
+    
+    image-rendering: pixelated;
+    margin-top:-123px;
+    margin-bottom:-32px;
+    
+    margin-left:-8%;
+    margin-right:0px;
+    
+    transform-origin:bottom;
+}
+
+body > aside .decor-right{
+    text-align: center;
+    position:absolute;
+    z-index:-10;
+    
+    image-rendering: pixelated;
+    margin-top:-108px;
+    margin-bottom:-32px;
+    
+    width:110%;max-width:110%;
+    margin-left:-5%;
+    transform-origin:bottom;
+}
+
+body > main .decor-text{
+    margin-bottom:-1rem;
 }
 
 body > aside {
@@ -77,11 +126,19 @@ body > aside {
     gap: 0rem 4rem;
     background-color:var(--alma-black);
     border:4px solid var(--alma-grey);
+    
+    position:relative;
 }
 
 body > aside section {
     display: flex;
     flex-direction: column;
+}
+
+body > aside div.loaded-notes{
+    overflow:scroll;
+    scrollbar-color: var(--alma-grey) var(--alma-black);
+    max-height: 25rem;
 }
 
 body > aside ol {
@@ -230,6 +287,12 @@ body > aside h3 {
 .ql-editor {
     background: var(--alma-grey);
     color: var(--alma-white);
+
+    scrollbar-color: var(--alma-purple) var(--alma-grey);
+}
+
+.ql-toolbar {
+    background: var(--alma-black);
 }
 
 .ql-editor p, li {
