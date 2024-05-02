@@ -9,24 +9,26 @@ try:
     gensim_available = True
 except:
     gensim_available = False
-    print("Warning: unable to load gensim module. Note linking functionality will be affected.")
+    print("Warning: unable to load gensim module. Note linking functionality switched to traditional TF-IDF search.")
 from sklearn.metrics.pairwise import cosine_similarity
 
 # content has to be a parsed dictionary
 def get_document_embeddings(content={}):
     body = content.get('text', "")
     if body == "":
-        return "[Empty Body]", np.array([])
+        return "[Empty Body]", np.array([]), True
     
     body = gensim.utils.simple_preprocess(body)
     embedding = content.get('embeddings', None)
     if embedding == None:
         model = Doc2Vec.load("static/backend_py/Trained_Embedding_Model")
         embedding = model.infer_vector(body)
+        emb_exist = False
     else:
         embedding = np.array(embedding).astype(dtype=np.float32)
+        emb_exist = True
         
-    return body, embedding
+    return body, embedding, emb_exist
 
 def is_note_file(path):
     if not isfile(path):
@@ -55,7 +57,7 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
         pth_list=[join(note_path, file) for file in list_dir if is_note_file(join(note_path, file))]
     
     # Process current document
-    assert is_note_file(current_pth), "Current file not found or is not in valid .note format"
+    assert is_note_file(current_pth), current_pth+" not found or is not in valid .note format"
     
     with open(current_pth, 'r') as f:
         content = json.loads(f.read())
@@ -63,7 +65,12 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
         if not gensim_available:
             return pth_list
         else:
-            this_body, this_embedding = get_document_embeddings(content)
+            this_body, this_embedding, emb_exist = get_document_embeddings(content)
+    
+    if not emb_exist: #Save embedding for future use
+        content['embeddings'] = list(this_embedding.astype('str'))
+        with open(current_pth, 'w') as f:
+            f.write(json.dumps(content))
         
     # Process existing documents list
     #body_list = []
@@ -73,11 +80,15 @@ def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.
         if is_note_file(path):
             with open(path, 'r') as f0:
                 content = json.loads(f0.read())
-                that_body, that_embedding = get_document_embeddings(content)
+                that_body, that_embedding, emb_exist = get_document_embeddings(content)
                 #body_list.append(that_body)
                 if len(that_embedding) > 0:
                     valid_pth_list.append(path)
                     embedding_list.append(that_embedding)
+            if not emb_exist: #Save embedding for future use
+                content['embeddings'] = list(that_embedding.astype('str'))
+                with open(path, 'w') as f:
+                    f.write(json.dumps(content))
 
     # Compare similarity
     if embedding_list==[]:
