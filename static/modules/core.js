@@ -9,7 +9,7 @@ $.editor.quill = new Quill($.editor, {
         toolbar: [ //HB: I removed stuff that'd be really inconvenient to style, that's not really necessary anyways.
             [{ header: [] }],
             ["bold", "italic", "underline"],
-            [{ color: ['#17171a', '#201f33', '#332966', '#47a1b3', '#98add9', '#edfaff', '#201f33', '#52cca3', '#50c75a'] }, { align: [] }],
+            [{ color: ['#332966', '#47a1b3', '#98add9', '#edfaff', '#52cca3', '#50c75a', '#edfaff'] }, { align: [] }],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link"],
             ["formula"]
