@@ -46,24 +46,24 @@ def is_note_file(path):
 # Return:
 # top_matches: List[Dict{String, String}]. A list of dictionaries: {id, title} . 
 # The list is of size at most topn. Results are sorted in descending order of similarity scores.
-def get_linked_notes(current_pth = "stored_notes/Article 1.note",
+def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.note",
                             pth_list=[], topn = 10):
     # default pth list: everything in the /stored_notes directory
     if pth_list == []:
         note_path = 'stored_notes/'
         list_dir = listdir(note_path)
         pth_list=[join(note_path, file) for file in list_dir if is_note_file(join(note_path, file))]
-
-    # If gensim is not available, just return the entire list cuz your device sucks
-    if not gensim_available:
-        return pth_list
     
     # Process current document
-    if not is_note_file(current_pth):
-        return "Error: No such file."
+    assert is_note_file(current_pth), "Current file not found or is not in valid .note format"
+    
     with open(current_pth, 'r') as f:
         content = json.loads(f.read())
-        this_body, this_embedding = get_document_embeddings(content)
+        # TODO: If gensim is not available, just run search with TF-IDF with search_query as the content of current file.
+        if not gensim_available:
+            return pth_list
+        else:
+            this_body, this_embedding = get_document_embeddings(content)
         
     # Process existing documents list
     #body_list = []
@@ -88,5 +88,5 @@ def get_linked_notes(current_pth = "stored_notes/Article 1.note",
     
     return top_matches
 
-#pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]
-#print(get_linked_notes(pth_list=pth_list))
+#pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+#print(get_linked_notes(pth_list=[]))

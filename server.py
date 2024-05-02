@@ -83,6 +83,8 @@ def search():
     search_text = request.args.get("q", "bacterial Phytoplasma disease")
     topn = int(request.args.get("n", -1))
     search_type = request.args.get("t", "OR")
+    if "&&" in search_text:
+        search_type = 'AND'
     rank = bool(request.args.get("r", True))
     pth_list = [] #If empty, the default will be everything in /stored_notes
     # top_matches: a list of dictionary {note_id, title}
