@@ -79,6 +79,12 @@ const searchLoadedPromise = (async () => {
 })();
 // Do not wait for search to load; keep on initializing
 
+// New note button
+document.querySelector("#new-note").addEventListener("click", async () => {
+    const { id } = await $.api.note.create({});
+    location.hash = `#${id}`;
+});
+
 // TODO: Initialize the "Related notes" panel
 console.log(relatedCount);
 

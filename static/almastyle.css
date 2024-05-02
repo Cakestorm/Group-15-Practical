@@ -83,6 +83,19 @@ html {
     background-color: var(--alma-white);
 }
 
+body > header #new-note {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-left: auto;
+    margin-right: 2rem;
+    border: none;
+    align-self: center;
+    font-weight: bold;
+    line-height: 1.6;
+    color: var(--alma-black);
+    background-color: var(--alma-turquoise);
+}
+
 body > aside li a {
     text-decoration: none;
     color: var(--alma-grey);
@@ -159,6 +172,11 @@ body > aside input[type=text]:focus-within {
     html {
         background-color: var(--alma-grey);
         color: var(--alma-white);
+    }
+
+    body > header #new-note {
+        color: var(--alma-purple);
+        background-color: var(--alma-light-blue);
     }
 
     body > aside input[type=text] {

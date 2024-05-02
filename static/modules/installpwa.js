@@ -16,7 +16,6 @@ style.innerText = `
 #install-pwa {
 	display: inline-block;
 	padding: 0.5rem 1rem;
-	margin-left: auto;
 	margin-right: 2rem;
 	align-self: center;
 	text-decoration: none;

@@ -26,6 +26,17 @@ function restApi(resource) {
             const resp = await fetch(`${ENDPOINT}/get_${resource}/${id}`);
             return await resp.json();
         },
+        async create(data) {
+            const id = data?.id || crypto.randomUUID();
+            await fetch(`${ENDPOINT}/post_${resource}/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            return { id, ...data };
+        },
         async update(id, data) {
             await fetch(`${ENDPOINT}/post_${resource}/${id}`, {
                 method: "POST",
