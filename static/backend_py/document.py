@@ -4,7 +4,7 @@ from static.backend_py.process_text import process_text
 class Document:
     def __init__(self, ID=0, body="", path="", title="", note_id=''):
         self.ID = ID
-        self.body = body
+        self.body = title + " " + body
         self.path = path
         self.title = title
         self.note_id = note_id
