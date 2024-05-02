@@ -7,22 +7,20 @@
     // Measure the size of the search result container (ol) and a search result
     // item (li), to calculate the number of items that can fit into the container
 
-    console.log(searchPrompts);
-
     let filtered = [];
     for (let prompt of searchPrompts) {
         if (prompt != "" && prompt != "\n") {
             filtered.push(prompt)
         }
     }
-    searchPrompts = filtered;
-    if (searchPrompts.length == 0) return;
+    if (filtered.length == 0) return;
+
+    console.log(filtered);
 
     const searchResults = [];
     const noteslist = (await $.api.note.list());
     for (let note of noteslist){
-        console.log(note)
-        for (let prompt of searchPrompts) {
+        for (let prompt of filtered) {
             if (note.name.toLowerCase().includes(prompt.toLowerCase()) &&
                 !searchResults.includes(note)) {
                 searchResults.push(note)
@@ -48,7 +46,17 @@
     })();
     }
 
-    async function updateSearch (){
+    async function updateSideSearch (){
+        // Initialize the sidebar
+        const sidebar = document.querySelector("body > aside");
+        const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
+
+        // Side search
+        let searchPrompts = document.querySelector("#search").value.split(" ");
+        search(searchPrompts, sideSearch);
+    }
+
+    async function updateAllSearch (){
         // Initialize the sidebar
         const sidebar = document.querySelector("body > aside");
         const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
@@ -72,11 +80,11 @@
         }
     }
     
-    document.querySelector("#search").addEventListener("input", debounce(updateSearch));
+    document.querySelector("#search").addEventListener("input", debounce(updateSideSearch));
 
     // Do not wait for search to load; keep on initializing
-    addEventListener("almagest:note-loaded", updateSearch);
+    addEventListener("almagest:note-loaded", updateAllSearch);
+    addEventListener("hashchange", updateAllSearch);
 
     // END MODULE
     })();
-    

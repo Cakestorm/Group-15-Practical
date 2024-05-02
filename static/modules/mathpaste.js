@@ -11,7 +11,7 @@ function makeFormula(latex) {
 //
 // <span class="ql-formula" data-value="[LATEX]">[...]</span>
 $.editor.quill.clipboard.addMatcher(".ql-formula[data-value]", (el) => {
-    let latex = el.dataset.value;
+    let latex = el.dataset.value.trim();
     if (latex) return makeFormula(latex);
 });
 
@@ -45,7 +45,7 @@ Quill.import("formats/formula").prototype.html = function() {
 }
 
 $.editor.quill.clipboard.addMatcher(".almagest-latex", (el) => {
-    const latex = el.innerText;
+    const latex = el.innerText.trim();
     if (latex) return makeFormula(latex);
 });
 
@@ -66,10 +66,10 @@ $.editor.quill.clipboard.addMatcher(".almagest-latex", (el) => {
 //        alt="[LATEX]">
 // </div>
 $.editor.quill.clipboard.addMatcher(".mwe-math-element", (el) => {
-    let latex = el.querySelector("math annotation[encoding='application/x-tex']").innerText;
-    latex ||= el.querySelector("math[alttext]").getAttribute("alttext");
-    latex ||= el.querySelector("img.mwe-math-fallback-image-display[alt]").alt;
-    latex ||= el.querySelector("img.mwe-math-fallback-image-inline[alt]").alt;
+    let latex = el.querySelector("math annotation[encoding='application/x-tex']")?.innerText;
+    latex ||= el.querySelector("math[alttext]")?.attributes?.alttext;
+    latex ||= el.querySelector("img.mwe-math-fallback-image-display[alt]")?.alt;
+    latex ||= el.querySelector("img.mwe-math-fallback-image-inline[alt]")?.alt;
     if (latex) return makeFormula(latex);
 });
 
@@ -88,11 +88,16 @@ $.editor.quill.clipboard.addMatcher(".mwe-math-element", (el) => {
 //   </span>
 //   <span class="katex-html" [...]>[...]</span>
 // </span>
-
-// TODO
+$.editor.quill.clipboard.addMatcher(".katex", (el) => {
+    let latex = el.querySelector("math annotation[encoding='application/x-tex']")?.innerText;
+    if (latex) return makeFormula(latex);
+});
 
 // MathJax formula
-// TODO
+$.editor.quill.clipboard.addMatcher("script[type^='math/tex']", (el) => {
+    let latex = el.innerText.trim();
+    if (latex) makeFormula(latex);
+});
 
 // END MODULE
 })();
