@@ -79,11 +79,14 @@ def get_server_config():
 
 @app.route("/search")
 def search():
-    # backend full plain text search
+    # backend full plain text search, with option to rank the search based on TF-IDF
     search_text = request.args.get("q", "bacterial Phytoplasma disease")
     topn = int(request.args.get("n", -1))
-    pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]
-    top_matches = search_notes(search_text = search_text, pth_list=pth_list, topn=topn)
+    search_type = request.args.get("t", "OR")
+    rank = bool(request.args.get("r", True))
+    pth_list = [] #If empty, the default will be everything in /stored_notes
+    top_matches = search_notes(search_text = search_text, pth_list=pth_list,
+                               topn=topn, search_type=search_type, rank=rank)
     return top_matches
 
 @app.route("/get_links")
@@ -93,6 +96,6 @@ def get_links():
     file_name = request.args.get("f", "Article 1")
     topn = int(request.args.get("n", 10))
     current_pth = "stored_notes/"+ file_name + ".note"
-    pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(2,300)]
+    pth_list = [] #If empty, the default will be everything in /stored_notes
     top_mathces = get_linked_notes(current_pth=current_pth, pth_list=pth_list, topn = topn)
     return top_mathces

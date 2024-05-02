@@ -1,15 +1,24 @@
-import os
+from os import listdir
+from os.path import isfile, join
 import json
 from static.backend_py.document import Document
 from static.backend_py.index import Index
 
+def is_note_file(path):
+    if not isfile(path):
+        return False
+    if path.split('.')[-1] != 'note':
+        return False
+    return True
+
 def load_documents(pth_list):
     for doc_id, path in enumerate(pth_list):
-        if os.path.isfile(path):
+        if is_note_file(path):
             with open(path, 'r') as f0:
                 content = json.loads(f0.read())
-                body = content['text']
-                yield(Document(doc_id, body, path)) #Returning a List(Document)
+                body = content.get('text', '')
+                if body != '':
+                    yield(Document(doc_id, body, path)) #Returning a List(Document)
 
 #==========Main Function===========
 # Params:
@@ -26,6 +35,12 @@ def load_documents(pth_list):
 def search_notes(search_text = "", pth_list = [], topn = -1,
                  search_type = 'OR', rank = True):
     
+     # default pth list: everything in the /stored_notes directory
+    if pth_list == []:
+        note_path = 'stored_notes/'
+        list_dir = listdir(note_path)
+        pth_list=[join(note_path, file) for file in list_dir if is_note_file(join(note_path, file))]
+        
     if search_text=="":
         return pth_list
     
@@ -41,7 +56,7 @@ def search_notes(search_text = "", pth_list = [], topn = -1,
     top_matches = [doc.get_path() for doc in documents]
     return top_matches
 
-#pth_list = ["stored_notes/wos_notes/Article {}.note".format(str(i)) for i in range(1,300)]
+#pth_list = ["stored_notes/Article {}.note".format(str(i)) for i in range(1,300)]
 #print(search_notes(search_text = "bacterial Phytoplasma disease", pth_list=pth_list, search_type='OR'))
 
 #https://bart.degoe.de/building-a-full-text-search-engine-150-lines-of-code/#fn:4
