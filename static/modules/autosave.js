@@ -20,9 +20,9 @@ $.editor.quill.on("text-change", () => {
         saving = true;
         const noteUrl = location.toString();
         const title = (
-            $.editor.querySelector("h1")?.innerText ||
-            $.editor.querySelector("h2")?.innerText ||
-            $.editor.querySelector("h3")?.innerText ||
+            $.editor.querySelector("h1")?.innerText.trim() ||
+            $.editor.querySelector("h2")?.innerText.trim() ||
+            $.editor.querySelector("h3")?.innerText.trim() ||
             $.editor.quill.getText(0, 47).replace(/\s+/g, " ") + "..."
         );
         await $.api.note.update($.editor.dataset.noteid, {

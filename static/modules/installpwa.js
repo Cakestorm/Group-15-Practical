@@ -21,7 +21,7 @@ style.innerText = `
 	text-decoration: none;
 	font-weight: bold;
 	color: var(--alma-white);
-	background-color: var(--alma-purple);
+	background-color: var(--alma-grey);
 }
 
 @media (prefers-color-scheme: dark) {
