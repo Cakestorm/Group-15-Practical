@@ -64,7 +64,7 @@
     const pwaInit = (async () => {
       const $ = Almagest;
 
-      function localStorageApi(resource, listAttrs) {
+      function localStorageApi(resource, listAttrs = []) {
         return {
           list() {
             return JSON.parse(localStorage.getItem(`${resource}` || "[]"));
@@ -76,19 +76,19 @@
           update(id, data) {
             const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
             localStorage.setItem(`${resource}-${id}`, JSON.stringify(data));
-            listAttrs.forEach(attr => { list[id][attr] = data[attr]; });
+            const listItem = list.find(item => item.id === id) || {};
+            listAttrs.forEach(attr => { listItem[attr] = data[attr]; });
             localStorage.setItem(`${resource}`, JSON.stringify(list));
           },
           delete(id) {
             localStorage.removeItem(`${resource}-${id}`);
             const list = JSON.parse(localStorage.getItem(`${resource}` || "[]"));
-            delete list[id];
-            localStorage.setItem(`${resource}`, JSON.stringify(list));
+            localStorage.setItem(`${resource}`, JSON.stringify(list.filter((item) => item.id !== id)));
           },
         }
       }
 
-      $.api.note = localStorageApi("note");
+      $.api.note = localStorageApi("note", ["title"]);
       $.api.module = localStorageApi("module");
       $.api.module.load = (async (id) => {
         const data = $.api.module.get(id);
