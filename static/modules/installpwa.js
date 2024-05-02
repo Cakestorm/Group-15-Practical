@@ -9,7 +9,7 @@ const install = document.createElement("a");
 install.id = "install-pwa";
 install.innerText = "Install";
 install.href = "/static/install.html";
-document.querySelector("header").append(install);
+document.querySelector("#side-related").prepend(install);
 
 const style = document.createElement("style");
 style.innerText = `

@@ -35,26 +35,32 @@
   <title>Almagest</title>
 </head>
 <body>
-  <header>
+  <header><div style="text-align: center; width:100%">
     <picture>
-      <source srcset="/static/img/logo-dark.png" media="only screen and (prefers-color-scheme: dark)" />
-      <img src="/static/img/logo-light.png" alt="site logo" />
-    </picture>
-    <input id="new-note" type="button" value="New Note" />
+      <source srcset="/static/UI_assets/almaLogo1.png" />
+      <img src="/static/img/logo-light.png" alt="site logo" media="only (prefers-color-scheme: light)" />
+    </picture></div>
   </header>
   <main>
+  <center><div style="color:#332966;font-size:16px"class="decor-text"> a tool by hera brown, junyuan chen, owen guo, mikolaj kalicinski, cem kozanoglu, jonathan kuck and jacob roe </div><br><br></center>
+  <img src="/static/UI_assets/DecorBit1.png" class="decor-left">
     <article></article>
   </main>
   <aside>
-    <section id="side-search">
-      <h2 id="aria-search-heading">Search</h2>
-      <input type="text" aria-labelledby="aria-search-heading" />
+    <img src="/static/UI_assets/OtherDecorBit1.png" class="decor-right">  
+    <section id="side-search"> 
+      <input id="new-note" type="button" value="New Note" />
+      <h2>Search for Notes</h2>
+      <input id="search" type="text" aria-labelledby="aria-search-heading" />
+      <div class="loaded-notes">
+      <h3>Results</h3><br>
       <ol>
         <li aria-hidden="true">&nbsp;<!--
           Placeholder, to measure the space required for a result
           and thus calculate the number of results to display
         --></li>
       </ol>
+      </div>
     </section>
     <section id="side-related">
       <h2>Related notes</h2>
