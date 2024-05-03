@@ -28,8 +28,6 @@
         }
     }
 
-    searchResults.sort((a, b) => a.name.localeCompare(b.name));
-
     (async () => {
         const searchResult = container.querySelector("ol");
         (searchResult.querySelectorAll("li")).forEach((element) => {element.remove()})
