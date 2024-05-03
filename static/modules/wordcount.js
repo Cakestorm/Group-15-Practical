@@ -4,7 +4,7 @@ const $ = Almagest;
 
 const counter = document.createElement("div");
 counter.style.float = "right";
-counter.style.marginTop = "0.25rem";
+counter.style.marginTop = "-0.45rem";
 counter.style.marginRight = "1rem";
 counter.style.color = "var(--alma-white)";
 counter.style.fontFamily = "BasicHandwriting";

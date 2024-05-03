@@ -23,13 +23,14 @@ style.innerText = `
 	color: var(--alma-white);
 	background-color: var(--alma-grey);
 }
-
+/** HB - I have temporarily commented this out!
 @media (prefers-color-scheme: dark) {
 	#install-pwa {
 		color: var(--alma-purple);
 		background-color: var(--alma-green);
 	}
 }
+*/
 `;
 document.head.append(style);
 

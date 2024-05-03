@@ -73,15 +73,16 @@
       installError.hidden = true;
     });
 
-    installButton.addEventListener("click", () => {
+    installButton.onclick = () => {
+      installButton.disabled = true;
       localStorage.setItem("__init__", `doInstall()`);
       const initScript = document.createElement("script");
       initScript.src = "/static/init.js";
       document.head.append(initScript);
-    });
+    };
 
     addEventListener("appinstalled", () => {
-      window.location = "/";
+      window.location = "/static/index.html";
     })
 
     const pwaInit = (async () => {
@@ -125,6 +126,14 @@
         const data = $.api.module.get(id);
         await import(`data:application/javascript;base64,${btoa(data)}`);
       });
+
+      $.api.search = async function(prompt) {
+        const words = prompt.split(/\s+/).filter(w => /\w+/.test(w)).map(w => w.toLowerCase());
+        return (await $.api.note.list()).filter((note) => {
+          const title = (note.name || note.title).toLowerCase();
+          return words.every(w => title.includes(w));
+        }).sort((a, b) => (a.name || a.title).localeCompare(b.name || b.title));
+      };
 
       $.api.module.load("core.js");
 
@@ -184,7 +193,19 @@
       details.innerText += " Done.\n";
 
       details.innerText += "Triggering the installation prompt...";
-      installPrompt.prompt();
+      try {
+        await installPrompt.prompt();
+      } catch (err) {
+        // Too much time has past since the last click.
+        installButton.value = "Ready";
+        installButton.disabled = false;
+        installButton.onclick = (() => installPrompt.prompt());
+
+        details.innerText += " Failed.\n";
+        const manualInstall = document.createElement("strong");
+        manualInstall.innerText = `Please click the "Ready" button to install.`;
+        details.append(manualInstall);
+      }
     });
   })();
   </script>

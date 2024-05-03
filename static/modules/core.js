@@ -2,6 +2,7 @@
 const $ = Almagest;
 // BEGIN MODULE
 // Initialize Quill editor
+
 $.editor = document.querySelector("body > main article");
 $.editor.quill = new Quill($.editor, {
     theme: "snow",
@@ -9,7 +10,7 @@ $.editor.quill = new Quill($.editor, {
         toolbar: [ //HB: I removed stuff that'd be really inconvenient to style, that's not really necessary anyways.
             [{ header: [] }],
             ["bold", "italic", "underline"],
-            [{ color: ['#17171a', '#201f33', '#332966', '#47a1b3', '#98add9', '#edfaff', '#201f33', '#52cca3', '#50c75a'] }, { align: [] }],
+            [{ color: ['#332966', '#47a1b3', '#98add9', '#edfaff', '#52cca3', '#50c75a', '#edfaff'] }, { align: [] }],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link"],
             ["formula"]
@@ -94,12 +95,17 @@ document.querySelector("#new-note").addEventListener("click", async () => {
 
 // Delete note button
 document.querySelector("#delete-note").addEventListener("click", async () => {
-    const noteid = location.hash.slice(1);
-    // Don't allow index to be deleted
-    // Go back to index after deletion
-    if (noteid != 'index') {
-        location.hash = '#index';
-        await $.api.note.delete(noteid);
+    if (confirm("Are you sure you want to delete this note?")) {
+        const noteid = location.hash.slice(1);
+        // Don't allow index to be deleted - instead delete its contents
+        // Go back to index after deletion
+        if (noteid != 'index') {
+            location.hash = '#index';
+            await $.api.note.delete(noteid);
+        }
+        else {
+            $.editor.quill.setContents([{ insert: '\n' }]);
+        }
     }
 });
 

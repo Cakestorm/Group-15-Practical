@@ -19,10 +19,11 @@ $.editor.quill.on("text-change", () => {
     timer = setTimeout(async function doSave() {
         saving = true;
         const noteUrl = location.toString();
+        const trim = ((str) => (str?.trim && str.trim()));
         const title = (
-            $.editor.querySelector("h1")?.innerText.trim() ||
-            $.editor.querySelector("h2")?.innerText.trim() ||
-            $.editor.querySelector("h3")?.innerText.trim() ||
+            trim($.editor.querySelector("h1")?.innerText) ||
+            trim($.editor.querySelector("h2")?.innerText) ||
+            trim($.editor.querySelector("h3")?.innerText) ||
             $.editor.quill.getText(0, 47).replace(/\s+/g, " ") + "..."
         );
         await $.api.note.update($.editor.dataset.noteid, {
