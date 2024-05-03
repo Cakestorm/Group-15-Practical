@@ -116,6 +116,7 @@ body > aside .decor-right{
 }
 
 body > main .decor-text{
+    text-align:center;
     margin-bottom:-1rem;
 }
 
@@ -235,7 +236,8 @@ body > aside li{
 
 body > aside li a {
     color: var(--alma-turquoise);
-    text-decoration-line: none;
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.125rem;  
     transition: 0.1s ease-in-out;
     font-size:1rem;  
 }
@@ -420,51 +422,13 @@ body > aside h3 {
     background-color: inherit;
 }
 */
-
-/* Dark theme */ /**
-@media (prefers-color-scheme: dark) {
-    html {
-        background-color: var(--alma-grey);
-        color: var(--alma-white);
-    }
-
-    body > header #new-note {
-        color: var(--alma-purple);
-        background-color: var(--alma-light-blue);
-    }
-
-    body > aside input[type=text] {
-        background-color: var(--alma-black);
-        border-color: var(--alma-green);
-    }
-
-    body > aside li a { color: var(--alma-light-blue) }
-    body > aside li a:hover { text-shadow: 1px 1px 5px var(--alma-blue) }
-
-    .ql-toolbar .ql-picker  { color: var(--alma-white) !important }
-    .ql-toolbar svg .ql-stroke { stroke: var(--alma-white) !important }
-    .ql-toolbar svg .ql-fill { fill: var(--alma-white) !important }
-    .ql-toolbar button:hover { color: var(--alma-blue) !important }
-    .ql-toolbar button:hover .ql-stroke { stroke: var(--alma-blue) !important }
-    .ql-toolbar button:hover .ql-fill { fill: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-label:hover { color: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-label:hover .ql-stroke { stroke: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-label:hover .ql-fill { fill: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-item:hover { color: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-item:hover .ql-stroke { stroke: var(--alma-blue) !important }
-    .ql-toolbar .ql-picker-item:hover .ql-fill { fill: var(--alma-blue) !important }
-
-    .ql-toolbar .ql-picker-options {
-        color: var(--alma-white) !important;
-        background-color: var(--alma-grey) !important;
-    }
-
-    .ql-editor {
-        background-color: var(--alma-black);
-        border-color: var(--alma-green);
-    }
+/**
+@media (prefers-color-scheme: light) {
+  body{
+    background-image: none;
+  }
 }
-
+*/
 
 @media (prefers-reduced-motion: reduce) {
     .ql-editor,
@@ -472,7 +436,7 @@ body > aside h3 {
         transition: unset;
     }
 }
-*/
+
 @media print {
     html, .ql-editor {
         background: white;
@@ -615,6 +579,3 @@ body > aside h3 {
     padding: 0.75rem;
     margin: -0.25rem;
 }
-
-/** will do the light theme later */
-
