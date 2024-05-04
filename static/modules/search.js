@@ -7,25 +7,14 @@
     // Measure the size of the search result container (ol) and a search result
     // item (li), to calculate the number of items that can fit into the container
 
-    let filtered = [];
-    for (let prompt of searchPrompts) {
-        if (prompt != "" && prompt != "\n") {
-            filtered.push(prompt)
-        }
-    }
-    if (filtered.length == 0) return;
-
-    console.log(filtered);
-
-    const searchResults = [];
-    const noteslist = (await $.api.note.list());
-    for (let note of noteslist){
-        for (let prompt of filtered) {
-            if (note.name.toLowerCase().includes(prompt.toLowerCase()) &&
-                !searchResults.includes(note)) {
-                searchResults.push(note)
-            }
-        }
+    const searchPrompt = document.querySelector("#search").value
+    console.log(searchPrompt);
+    let searchResults;
+    if (searchPrompt.trim()) {
+        searchResults = await $.api.search(searchPrompt);
+    } else {
+        searchResults = await $.api.note.list();
+        searchResults.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     (async () => {
