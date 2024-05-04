@@ -51,7 +51,6 @@ def search_notes(search_text = "", pth_list = [], topn = -1,
         index.index_document(doc)
         
     if search_text=="": #If empty search, just return everything
-        print("SHITTT")
         return [{ 'id': doc.get_note_id(), 'title': doc.get_title()} for doc in doc_list]
     
     documents = index.search(query=search_text, search_type=search_type, rank=rank)

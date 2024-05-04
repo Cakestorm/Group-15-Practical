@@ -51,8 +51,10 @@ class Index:
 
         if rank:
             return self.rank(processed_query, documents)
-        return documents
-    
+        else:
+            documents.sort(key = lambda doc:doc.get_title())
+            return documents
+        
     def rank(self, processed_query, documents):
         results = []
         if not documents:
@@ -62,6 +64,8 @@ class Index:
             for token in processed_query:
                 # TF = frequency of a token within the document
                 tf = document.get_term_frequency(token)
+                if token in document.get_title().lower(): #More emphasis on appearance of the title
+                    tf *= 2.5
                 # IDF = Inverse document frequency of a token across all documents in index
                 idf = self.inverse_document_frequency(token)
                 score += tf * idf    #Score = TF * IDF

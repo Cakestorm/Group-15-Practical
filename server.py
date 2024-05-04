@@ -86,6 +86,8 @@ def search():
     if "&&" in search_text:
         search_type = 'AND'
     rank = bool(request.args.get("r", True))
+    if "!=" in search_text:
+        rank = False
     pth_list = [] #If empty, the default will be everything in /stored_notes
     # top_matches: a list of dictionary {note_id, title}
     top_matches = search_notes(search_text = search_text, pth_list=pth_list,
