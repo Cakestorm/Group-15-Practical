@@ -98,7 +98,7 @@ def search():
 def get_links(file_name):
     # Backend function to extract linked notes based on semantic similarity
     # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
-    topn = int(request.args.get("n", 10))
+    topn = int(request.args.get("n", 20))
     current_pth = "stored_notes/"+ file_name + ".note"
     pth_list = [] #If empty, the default will be everything in /stored_notes
     top_mathces = get_linked_notes(current_pth=current_pth, pth_list=pth_list, topn = topn)

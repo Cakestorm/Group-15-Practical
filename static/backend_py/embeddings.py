@@ -50,7 +50,7 @@ def save_embeddings(path, embeddings):
 # top_matches: List[Dict{String, String}]. A list of dictionaries: {id, title} . 
 # The list is of size at most topn. Results are sorted in descending order of similarity scores.
 def get_linked_notes(current_pth = "stored_notes/Algorithms_and_Data_Structures.note",
-                            pth_list=[], topn = 10):
+                            pth_list=[], topn = 20):
     # default pth list: everything in the /stored_notes directory
     if pth_list == []:
         note_path = 'stored_notes/'
