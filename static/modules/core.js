@@ -46,47 +46,6 @@ const noteLoadedPromise = (async () => {
 const sidebar = document.querySelector("body > aside");
 const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
 
-// Measure the size of the search result container (ol) and a search result
-// item (li), to calculate the number of items that can fit into the container
-
-/** HB - due to changes in the way the website is styled, we can
-  * load arbitrarily many notes. I just opted to set this as a big constant (9999)
-  * wherever it was previously used. 
-const searchCount = Math.floor(
-    sideSearch.querySelector("ol").clientHeight /
-    sideSearch.querySelector("li").clientHeight
-);
-*/
-const searchCount = 9999;
-
-// Measure the size of the related result container (ol) and a related result
-// item (li), to calculate the number of items that can fit into the container
-
-/** HB - As above. 
-const relatedCount = Math.floor(
-    sideRelated.querySelector("ol").clientHeight /
-    sideRelated.querySelector("li").clientHeight
-); */
-const relatedCount = 9999;
-
-// Initialze the search panel in the side bar
-// No search query, just display some entries of the entire note list
-
-const searchLoadedPromise = (async () => {
-    const searchResult = sideSearch.querySelector("ol");
-    searchResult.querySelector("li").remove();
-
-    (await $.api.note.list()).slice(0, searchCount).sort((a, b) => a.name.localeCompare(b.name)).forEach((note) => {
-        const link = document.createElement("a");
-        link.href = `#${note.id}`;
-        link.innerText = note.name || note.title;
-        const li = document.createElement("li");
-        li.append(link);
-        searchResult.append(li);
-    })
-})();
-// Do not wait for search to load; keep on initializing
-
 // New note button
 document.querySelector("#new-note").addEventListener("click", async () => {
     const { id } = await $.api.note.create({});
@@ -109,14 +68,10 @@ document.querySelector("#delete-note").addEventListener("click", async () => {
     }
 });
 
-// TODO: Initialize the "Related notes" panel
-console.log(relatedCount);
-
 // Now wait for everything to finish loading
 // (completely initialize before loading other modules)
 await Promise.all([
     noteLoadedPromise,
-    searchLoadedPromise
 ]);
 
 // Load other modules

@@ -64,6 +64,10 @@ $.api = {
         const resp = await fetch("/search?q=" + encodeURIComponent(prompt));
         return resp.json();
     },
+    async related(noteid) {
+        const resp = await fetch("/get_links?f=" + encodeURIComponent(noteid));
+        return resp.json();
+    },
 };
 
 $.api.module.load = async (module) => {

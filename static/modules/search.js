@@ -1,14 +1,31 @@
 (async () => {
-    const $ = Almagest;
-    // BEGIN MODULE
-    
-    // Search through note names using array of search prompts and output into container (TEMP)
-    async function search (searchPrompts, container){
-    // Measure the size of the search result container (ol) and a search result
-    // item (li), to calculate the number of items that can fit into the container
+const $ = Almagest;
+// BEGIN MODULE
 
-    const searchPrompt = document.querySelector("#search").value
-    console.log(searchPrompt);
+function debounce(fn) {
+    let timer;
+
+    return (() => {
+        clearTimeout(timer);
+        timer = setTimeout(fn, 200);
+    });
+}
+
+function populateNoteList(container, list) {
+    container.childNodes.forEach((oldItem) => oldItem.remove());
+    for (let note of list) {
+        const link = document.createElement("a");
+        link.href = `#${note.id}`;
+        link.innerText = note.name || note.title;
+        const li = document.createElement("li");
+        li.append(link);
+        container.append(li);
+    }
+}
+
+const searchBox = document.querySelector("#search");
+async function updateSearch() {
+    const searchPrompt = searchBox.value;
     let searchResults;
     if (searchPrompt.trim()) {
         searchResults = await $.api.search(searchPrompt);
@@ -17,61 +34,21 @@
         searchResults.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    (async () => {
-        const searchResult = container.querySelector("ol");
-        (searchResult.querySelectorAll("li")).forEach((element) => {element.remove()})
+    const container = document.querySelector("#side-search ol");
+    populateNoteList(container, searchResults);
+}
 
-        for (let note of searchResults){
-            const link = document.createElement("a");
-            link.href = `#${note.id}`;
-            link.innerText = note.name || note.title;
-            const li = document.createElement("li");
-            li.append(link);
-            searchResult.append(li);
+updateSearch();
+searchBox.addEventListener("input", debounce(updateSearch));
 
-        }
-    })();
-    }
+async function updateRelatedNotes() {
+    const related = await $.api.related($.editor.dataset.noteid);
+    const container = document.querySelector("#side-related ol");
+    populateNoteList(container, related);
+}
 
-    async function updateSideSearch (){
-        // Initialize the sidebar
-        const sidebar = document.querySelector("body > aside");
-        const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
+updateRelatedNotes()
+addEventListener("almagest:note-loaded", updateRelatedNotes);
 
-        // Side search
-        let searchPrompts = document.querySelector("#search").value.split(" ");
-        search(searchPrompts, sideSearch);
-    }
-
-    async function updateAllSearch (){
-        // Initialize the sidebar
-        const sidebar = document.querySelector("body > aside");
-        const [sideSearch, sideRelated] = sidebar.querySelectorAll("section");
-
-        // Side search
-        let searchPrompts = document.querySelector("#search").value.split(" ");
-        search(searchPrompts, sideSearch);
-
-        // Related search
-        let text = $.editor.quill.container.innerText;
-        searchPrompts = text.split("\n").flatMap((s) => s.split(" "));
-        search(searchPrompts, sideRelated);
-    }
-
-    function debounce(fn) {
-        let timer;
-
-        return () => {
-            clearTimeout(timer);
-            timer = setTimeout(fn, 200);
-        }
-    }
-    
-    document.querySelector("#search").addEventListener("input", debounce(updateSideSearch));
-
-    // Do not wait for search to load; keep on initializing
-    addEventListener("almagest:note-loaded", updateAllSearch);
-    addEventListener("hashchange", updateAllSearch);
-
-    // END MODULE
-    })();
+// END MODULE
+})();
