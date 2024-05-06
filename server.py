@@ -94,11 +94,10 @@ def search():
                                topn=topn, search_type=search_type, rank=rank)
     return top_matches
 
-@app.route("/get_links")
-def get_links():
+@app.route("/get_links/<path:file_name>")
+def get_links(file_name):
     # Backend function to extract linked notes based on semantic similarity
     # Example Implementation: Given Article 1, find the top 10 most relevant notes among Article 2-300 to link.
-    file_name = request.args.get("f", "Article 1")
     topn = int(request.args.get("n", 10))
     current_pth = "stored_notes/"+ file_name + ".note"
     pth_list = [] #If empty, the default will be everything in /stored_notes

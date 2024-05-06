@@ -12,7 +12,7 @@ function debounce(fn) {
 }
 
 function populateNoteList(container, list) {
-    container.childNodes.forEach((oldItem) => oldItem.remove());
+    container.innerHTML = "";
     for (let note of list) {
         const link = document.createElement("a");
         link.href = `#${note.id}`;

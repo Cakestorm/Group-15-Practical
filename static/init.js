@@ -65,7 +65,7 @@ $.api = {
         return resp.json();
     },
     async related(noteid) {
-        const resp = await fetch("/get_links?f=" + encodeURIComponent(noteid));
+        const resp = await fetch(`/get_links/${noteid}`);
         return resp.json();
     },
 };
