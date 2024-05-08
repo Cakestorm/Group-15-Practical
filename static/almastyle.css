@@ -148,6 +148,8 @@ body .decor-bottom-bg {
     position:absolute;
     z-index:-10;
     
+    bottom:0;
+    
     width:100%;
     margin-top:39%;
     margin-left:-1.5rem;
