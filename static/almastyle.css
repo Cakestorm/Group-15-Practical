@@ -211,7 +211,7 @@ body > aside ol {
 }
 
 a{   
-    font-family: 'BasicHandwriting'; 
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif; 
     
     /** Ought to always be a multiple of 1rem (it's pixel art) */
     font-size:1rem; 
@@ -231,7 +231,7 @@ a{
  * target any future input added there too). */
 
 html {
-    font-family: 'BasicHandwriting';
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
 }
 
 body > aside ol {
@@ -256,7 +256,7 @@ body > aside li a:hover {
 
 body > aside input[type=text] {
     color: var(--alma-white);
-    font-family:'BasicHandwriting';
+    font-family:'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
     font-size:1rem;
     
     background-color: var(--alma-grey);
@@ -269,7 +269,7 @@ body > aside input[type=text] {
 
 body > aside input[type=button] {
     color: var(--alma-white);
-    font-family:'BasicHandwriting';
+    font-family:'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
     font-size:1rem;
     
     background-color: var(--alma-grey);
@@ -296,7 +296,7 @@ body > aside input[type=button]:focus {
 }
 
 body > aside input[type=button].delete-button {
-    font-family:'BasicHandwriting';
+    font-family:'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
     font-size:1rem;
     background-color:var(--alma-purple); border:4px solid var(--alma-purple); 
     margin: 0rem;
@@ -312,7 +312,7 @@ body > aside input[type=button].delete-button:hover {
 
 body > aside h2 {
     color: var(--alma-white);   
-    font-family: 'BasicHandwriting';
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
 
     text-decoration-line: underline;
     text-decoration-thickness: 0.125rem;    
@@ -320,7 +320,7 @@ body > aside h2 {
 
 body > aside h3 {
     color: var(--alma-white);   
-    font-family: 'BasicHandwriting';
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
 
     text-decoration-line: underline;
     text-decoration-thickness: 0.125rem; 
@@ -392,7 +392,7 @@ body > aside h3 {
 
 .ql-editor p, li {
     color: var(--alma-white);   
-    font-family: 'BasicHandwriting'; 
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif; 
     
     /** Ought to always be a multiple of 1rem (1 rem) (its pixel art) */
     font-size:1rem; 
@@ -418,7 +418,7 @@ body > aside h3 {
 
 .ql-editor h1,h2,h3,h4,h5,h6 {
     color: var(--alma-blue);   
-    font-family: 'BasicHandwriting';     
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;     
 }
 
 .ql-editor span{
@@ -661,11 +661,11 @@ body > aside h3 {
 }
 
 /** Toolbar */
-    .ql-picker-label {color: var(--alma-white);font-family: 'BasicHandwriting'; font-size:1rem;transition: 0.1s ease-in-out;}
+    .ql-picker-label {color: var(--alma-white);font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif; font-size:1rem;transition: 0.1s ease-in-out;}
     .ql-snow.ql-toolbar .ql-picker-label:hover {color: var(--alma-turquoise); }
     .ql-snow.ql-toolbar .ql-picker-label:focus {color: var(--alma-turquoise); }
     
-    .ql-picker-item {color: var(--alma-white);font-family: 'BasicHandwriting'; font-size:1rem;transition: 0.1s ease-in-out;}
+    .ql-picker-item {color: var(--alma-white);font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif; font-size:1rem;transition: 0.1s ease-in-out;}
     .ql-snow.ql-toolbar .ql-picker-item:hover {color: var(--alma-turquoise); }
     .ql-snow.ql-toolbar .ql-picker-item:focus {color: var(--alma-turquoise); }
     
@@ -718,7 +718,7 @@ body > aside h3 {
     border: 0.25rem solid var(--alma-purple);
     box-shadow: 0 0 0.375rem var(--alma-black);
     color: var(--alma-white);
-    font-family: 'BasicHandwriting';
+    font-family: 'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
     
     animation-name: juicyTextLessColour;
     animation-duration: 0.3s;
@@ -759,7 +759,7 @@ body > aside h3 {
 
 .ql-snow .ql-tooltip input[type=text] {
     color: var(--alma-white);
-    font-family:'BasicHandwriting';
+    font-family:'BasicHandwriting', 'Comic Sans MS', cursive, sans-serif;
     font-size:1rem;
     
     background-color: var(--alma-grey);
